@@ -3,6 +3,8 @@ from config import larg_tela, alt_tela
 from gerenciador import Gerenciador
 from jogador import Jogador
 from guerreiro import Guerreiro
+from menu import Menu
+from fontes import Fontes
 
 pygame.init()
 
@@ -18,7 +20,13 @@ gerenciador = Gerenciador()
 jogador = Jogador()
 guerreiro = Guerreiro()
 
+fontes = Fontes()
+
+menu = Menu(fontes)
+
 jogador.escolher_classe(guerreiro)
+
+estado = "menu"
 
 while rodando:
 
@@ -28,7 +36,13 @@ while rodando:
 
             rodando = False
 
-    gerenciador.rodar(janela, jogador)
+    if estado == "menu":
+
+        menu.draw(janela)
+
+    if estado == "jogando":
+
+        gerenciador.rodar(janela, jogador)
 
     pygame.display.update()
 

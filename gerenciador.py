@@ -9,7 +9,7 @@ class Gerenciador:
     def __init__(self):
         self.lista_inimigos = cenarios
 
-        self.cenario_atual = "floresta"
+        self.cenario_atual = "cenario1"
 
         self.fase_atual = 1
 
@@ -27,7 +27,7 @@ class Gerenciador:
 
         self.cenario = pygame.transform.scale(self.img_cenario, (self.larg_cenario, self.alt_cenario))
 
-        self.img_painel = pygame.image.load(f"assets/cenarios/painel.png").convert_alpha()
+        self.img_painel = pygame.image.load("assets/cenarios/painel.png").convert_alpha()
 
         self.painel = pygame.transform.scale(self.img_painel, (self.larg_painel, self.alt_painel))
 
@@ -36,7 +36,7 @@ class Gerenciador:
 
     def rodar(self, janela, jogador):
 
-        if self.cenario_atual == "floresta" and self.fase_atual == 1:
+        if self.cenario_atual == "cenario1" and self.fase_atual == 1:
 
             inimigos_fase = self.criar_inimigos()
 
