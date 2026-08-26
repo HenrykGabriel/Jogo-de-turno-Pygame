@@ -1,5 +1,7 @@
 import pygame
+from sons import Sons
 
+sons = Sons()
 
 class Botao:
     def __init__(self, x, y, largura, altura, texto, cor_texto, fonte, cor, cor_hover):
@@ -15,6 +17,7 @@ class Botao:
         self.cor = cor
 
         self.cor_hover = cor_hover
+
 
     def draw(self, janela):
 
@@ -57,10 +60,11 @@ class Botao:
         return self.rect.collidepoint(mouse)
 
     def clicado(self, eventos):
-
+            
         for evento in eventos:
 
             if evento.type == pygame.MOUSEBUTTONDOWN:
 
-                if self.botao_jogar.rect.collidepoint(evento.pos):
+                if self.rect.collidepoint(evento.pos) and evento.button == 1:
+                    sons.som_clique()
                     return True

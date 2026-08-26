@@ -5,13 +5,20 @@ from jogador import Jogador
 from guerreiro import Guerreiro
 from menu import Menu
 from fontes import Fontes
+from sons import Sons
 
 pygame.init()
 
 janela = pygame.display.set_mode((larg_tela, alt_tela))
-pygame.display.set_caption("Jogo de turno")
+pygame.display.set_caption("The Last Vanguard")
 
 clock = pygame.time.Clock()
+
+# MÚSICA DE FUNDO
+
+sons = Sons()
+
+sons.iniciar_musica()
 
 rodando = True
 
@@ -39,6 +46,7 @@ while rodando:
     if estado == "menu":
 
         menu.draw(janela)
+        menu.update(pygame.event.get())
 
     if estado == "jogando":
 

@@ -7,4 +7,6 @@ class Fontes:
 
         self.texto_maior = pygame.font.Font("fonts/Cinzel-Bold.ttf", 40)
 
-        self.texto = pygame.font.Font("fonts/Cinzel-Medium.ttf", 35)
+        self.texto_normal = pygame.font.Font("fonts/Cinzel-Medium.ttf", 20)
+
+        self.texto_pequeno = pygame.font.Font("fonts/Cinzel-Medium.ttf", 16)
