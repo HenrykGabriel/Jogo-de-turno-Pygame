@@ -55,7 +55,7 @@ class Menu:
         self.titulo_tutoruial_rect = self.titulo_tutorial.get_rect(
                     center=(
                         self.container_rect.centerx,
-                        self.container_rect.centery - 260)
+                        self.container_rect.centery - 240)
                         )
 
         self.texto_tutorial = [
@@ -63,19 +63,17 @@ class Menu:
             
             "Durante os combates, use as cartas de Ataque para causar dano e Defesa para aumentar seu escudo e se proteger.",
             
-            "Durante os combates, use as cartas de Ataque para causar dano e Defesa para aumentar seu escudo e se proteger.",
-            
             "Cada cenário possui três fases, com um chefe na última. Ao vencer uma fase, você irá receber cartas de atributo, que melhoram suas características.",
             
             "Escolha suas ações com cuidado, fortaleça seu personagem e derrote todos os inimigos!"
         ]
-        self.texto_x = self.container_rect.centerx - 225  # Ajuste baseado na largura máxima abaixo
-        self.texto_y = self.container_rect.centery - 210
-        self.largura_maxima = 450
+        self.largura_maxima = 420
+        self.texto_x = self.container_rect.centerx - (self.largura_maxima//2)  # Ajuste baseado na largura máxima abaixo
+        self.texto_y = self.container_rect.centery - 180
 
         self.larg_botao_comecar = 270
         self.alt_botao_comecar = 100
-        self.botao_comecar = Botao((larg_tela-self.larg_botao_comecar)//2, (alt_tela+350)//2, 
+        self.botao_comecar = Botao((larg_tela-self.larg_botao_comecar)//2, (alt_tela+310)//2, 
                            self.larg_botao_comecar, self.alt_botao_comecar, "Começar", (255, 255, 255),
                            self.texto_maior, (224, 221, 8), (214, 211, 0))
 
