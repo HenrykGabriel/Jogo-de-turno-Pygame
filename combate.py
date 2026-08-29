@@ -98,6 +98,24 @@ class Combate:
                             self.painel_rect.left + 220,
                             self.painel_rect.top + 180
                         ))
+        # CARTAS ---------------------------------------
+        self.larg_cartas = 160
+        self.alt_cartas = self.alt_painel - 40
+        self.img_carta_ataque = pygame.image.load("assets/cartas/carta_ataque.png").convert_alpha()
+        self.carta_ataque = pygame.transform.scale(self.img_carta_ataque, (self.larg_cartas, self.alt_cartas))
+        self.carta_ataque_rect = self.carta_ataque.get_rect(
+                    midleft=(
+                            self.painel_rect.centerx + 80,
+                            self.painel_rect.centery
+                        ))
+
+        self.img_carta_defesa = pygame.image.load("assets/cartas/carta_defesa.png").convert_alpha()
+        self.carta_defesa = pygame.transform.scale(self.img_carta_defesa, (self.larg_cartas, self.alt_cartas))
+        self.carta_defesa_rect = self.carta_defesa.get_rect(
+                    midleft=(
+                            self.painel_rect.centerx + 80 + self.larg_cartas + 40,
+                            self.painel_rect.centery
+                        ))
 
 
     def comecar(self, janela, inimigos, jogador, eventos, cenario_atual):
@@ -118,6 +136,8 @@ class Combate:
             inimigo.draw(janela)
 
         self.draw_atributos(janela)
+
+        self.draw_cartas(janela)
 
     def posicionar_inimigos(self):
 
@@ -145,3 +165,9 @@ class Combate:
         janela.blit(self.jogador_critico, self.jogador_critico_rect)
 
         janela.blit(self.jogador_escudo, self.jogador_escudo_rect)
+
+    def draw_cartas(self, janela):
+
+        janela.blit(self.carta_ataque, self.carta_ataque_rect)
+
+        janela.blit(self.carta_defesa, self.carta_defesa_rect)
