@@ -7,8 +7,8 @@ Slime_azul = {
     "chance_critico": 1,
     "critico": 1.1,
     "caminho": "assets/inimigos/Slime_azul.png",
-    "largura": 120,
-    "altura": 120,
+    "largura": 170,
+    "altura": 170,
     "qtd_frames": 10
 }
 
@@ -20,7 +20,7 @@ Slime_verde = {
     "chance_critico": 1,
     "critico": 1.2,
     "caminho": "assets/inimigos/Slime_verde.png",
-    "largura": 120,
-    "altura": 120,
+    "largura": 170,
+    "altura": 170,
     "qtd_frames": 10
 }

@@ -1,46 +1,42 @@
 import pygame
-import copy
-from config import larg_tela, alt_tela
-from combate import combate
-from dados_fase import cenarios
 from inimigos import Inimigo
+from combate import Combate
+from dados_fase import dados
 
 class Gerenciador:
-    def __init__(self):
-        self.lista_inimigos = cenarios
+    def __init__(self, jogador):
 
-        self.cenario_atual = "cenario1"
-
+        self.cenario_atual = "Campo aberto"
+        
         self.fase_atual = 1
 
-        self.turno = "jogador"
+        self.jogando = False
 
-        self.larg_painel = larg_tela
-        
-        self.alt_painel = alt_tela // 3
+        self.jogador = jogador
 
-        self.larg_cenario = larg_tela
+        self.inimigos = []
 
-        self.alt_cenario = alt_tela - self.alt_painel
+        self.combate = None
 
-        self.img_cenario = pygame.image.load(f"assets/cenarios/{self.cenario_atual}.png").convert_alpha()
-
-        self.cenario = pygame.transform.scale(self.img_cenario, (self.larg_cenario, self.alt_cenario))
-
-        self.img_painel = pygame.image.load("assets/cenarios/painel.png").convert_alpha()
-
-        self.painel = pygame.transform.scale(self.img_painel, (self.larg_painel, self.alt_painel))
-
-
+        self.dados = dados
         
 
-    def rodar(self, janela, jogador):
+    def rodar(self, janela, eventos):
 
-        if self.cenario_atual == "cenario1" and self.fase_atual == 1:
+        if self.cenario_atual == "Campo aberto" and self.fase_atual == 1:
 
-            inimigos_fase = self.criar_inimigos()
+            if self.jogando == False:
 
-            combate(janela, self, inimigos_fase, jogador)
+                self.inimigos = self.criar_inimigos()
+
+                self.combate = Combate(
+                    self.jogador,
+                    self.inimigos
+                )
+
+                self.jogando = True
+
+            self.combate.comecar(janela, self.inimigos, self.jogador, eventos, self.cenario_atual)
 
     def criar_inimigos(self):
 
@@ -48,7 +44,7 @@ class Gerenciador:
 
         indice_fase = self.fase_atual - 1
 
-        dados = self.lista_inimigos[self.cenario_atual][indice_fase]
+        dados = self.dados[self.cenario_atual][indice_fase]
 
         for inimigo in dados:
 

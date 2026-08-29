@@ -2,7 +2,7 @@ import pygame
 from config import larg_tela, alt_tela
 from gerenciador import Gerenciador
 from jogador import Jogador
-from guerreiro import Guerreiro
+from cavaleiro import Cavaleiro
 from menu import Menu
 from fontes import Fontes
 from sons import Sons
@@ -22,22 +22,23 @@ sons.iniciar_musica()
 
 rodando = True
 
-gerenciador = Gerenciador()
+cavaleiro = Cavaleiro()
 
-jogador = Jogador()
-guerreiro = Guerreiro()
+jogador = Jogador(cavaleiro)
 
 fontes = Fontes()
 
 menu = Menu(fontes)
 
-jogador.escolher_classe(guerreiro)
+gerenciador = Gerenciador(jogador)
 
 estado = "menu"
 
 while rodando:
 
-    for evento in pygame.event.get():
+    eventos = pygame.event.get()
+
+    for evento in eventos:
 
         if evento.type == pygame.QUIT:
 
@@ -46,9 +47,11 @@ while rodando:
     if estado == "menu":
 
         menu.draw(janela)
-        menu.update(pygame.event.get())
+        menu.update(eventos)
+        if menu.update_comecar(eventos) == True:
+            estado = "jogando"
 
-    if estado == "jogando":
+    elif estado == "jogando":
 
         gerenciador.rodar(janela, jogador)
 
