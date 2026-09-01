@@ -32,13 +32,23 @@ class Combate:
 
         self.campo_aberto = pygame.transform.scale(self.img_campo_aberto, (self.larg_cenario, self.alt_cenario))
 
+        self.cenario_rect = self.campo_aberto.get_rect()
+
+        #  PAINEIS ------------------------------------------------------
         self.img_painel = pygame.image.load("assets/cenarios/painel.png").convert_alpha()
 
         self.painel = pygame.transform.scale(self.img_painel, (self.larg_painel, self.alt_painel))
 
         self.painel_rect = self.painel.get_rect(bottom=alt_tela)
+
+        self.img_painel_menor = pygame.image.load("assets/cenarios/painel_menor.png").convert_alpha()
+
+        self.painel_menor = pygame.transform.scale(self.img_painel_menor, ((self.larg_painel//3)-50, self.alt_painel - 120))
+
+        self.painel_menor_rect = self.painel_menor.get_rect()
+
+        self.painel_menor_rect.topright = self.cenario_rect.topright
         # -------------------------------------
-        self.cenario_rect = self.campo_aberto.get_rect()
         
         self.jogador.rect = self.jogador.imagem.get_rect()
 
@@ -139,6 +149,8 @@ class Combate:
 
         self.draw_cartas(janela)
 
+        self.draw_atributos_inimigo(janela)
+
     def posicionar_inimigos(self):
 
         x = self.cenario_rect.centerx + 130
@@ -171,3 +183,7 @@ class Combate:
         janela.blit(self.carta_ataque, self.carta_ataque_rect)
 
         janela.blit(self.carta_defesa, self.carta_defesa_rect)
+
+    def draw_atributos_inimigo(self, janela):
+
+        janela.blit(self.painel_menor, self.painel_menor_rect)
