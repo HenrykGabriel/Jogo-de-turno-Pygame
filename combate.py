@@ -139,8 +139,6 @@ class Combate:
 
         inimigo = self.inimigos[0]
 
-        self.jogador.vida = 40
-
         if cenario_atual == "Campo aberto":
             janela.blit(self.campo_aberto, (0, 0))
 
