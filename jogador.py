@@ -11,6 +11,7 @@ class Jogador:
         self.qtd_frames = classe.qtd_frames
         
         # Atributos
+        self.vida_maxima = classe.vida_maxima
         self.vida = classe.vida
         self.dano = classe.dano
         self.esquiva = classe.esquiva

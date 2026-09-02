@@ -11,7 +11,8 @@ class Inimigo:
         self.qtd_frames = qtd_frames
         
         # Atributos
-        self.vida = vida
+        self.vida_maxima = vida
+        self.vida = self.vida_maxima
         self.dano = dano
         self.esquiva = esquiva
         self.chance_critico = chance_critico

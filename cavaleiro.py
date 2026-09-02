@@ -8,7 +8,9 @@ class Cavaleiro:
 
         self.caminho_imagem = "assets/cavaleiro/Cavaleiro.png"
 
-        self.vida = 60
+        self.vida_maxima = 60
+
+        self.vida = self.vida_maxima
 
         self.dano = 7
 
