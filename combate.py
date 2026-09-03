@@ -160,14 +160,14 @@ class Combate:
 
     def posicionar_inimigos(self):
 
-        x = self.cenario_rect.centerx + 130
+        x = self.cenario_rect.centerx + 330
         y = self.cenario_rect.centery + 10
 
         for inimigo in self.inimigos:
 
             inimigo.rect.center = (x, y)
 
-            x += inimigo.rect.width + 40
+            x -= inimigo.rect.width + 40
 
     def draw_atributos(self, janela):
 
