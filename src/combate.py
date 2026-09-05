@@ -1,5 +1,5 @@
 import pygame
-from config import larg_tela, alt_tela
+from config import larg_tela, alt_tela, caminho_asset
 from fontes import Fontes
 
 class Combate:
@@ -29,24 +29,24 @@ class Combate:
         self.alt_cenario = alt_tela - self.alt_painel
 
         # CENARIO 1 - CAMPO ABERTO
-        self.img_campo_aberto = pygame.image.load(f"assets/cenarios/Campo aberto.png").convert_alpha()
+        self.img_campo_aberto = pygame.image.load(caminho_asset("cenarios/Campo aberto.png")).convert_alpha()
 
         self.campo_aberto = pygame.transform.scale(self.img_campo_aberto, (self.larg_cenario, self.alt_cenario))
 
         self.cenario_rect = self.campo_aberto.get_rect()
 
         #  PAINEIS ------------------------------------------------------
-        self.img_painel = pygame.image.load("assets/cenarios/painel.png").convert_alpha()
+        self.img_painel = pygame.image.load(caminho_asset("cenarios/painel.png")).convert_alpha()
         self.painel = pygame.transform.scale(self.img_painel, (self.larg_painel, self.alt_painel))
         self.painel_rect = self.painel.get_rect(bottom=alt_tela)
 
-        self.img_painel_menor = pygame.image.load("assets/cenarios/painel_menor.png").convert_alpha()
+        self.img_painel_menor = pygame.image.load(caminho_asset("cenarios/painel_menor.png")).convert_alpha()
         self.painel_menor = pygame.transform.scale(self.img_painel_menor, ((self.larg_painel//3)-40, self.alt_painel - 120))
 
         self.painel_menor_rect = self.painel_menor.get_rect()
         self.painel_menor_rect.topright = self.cenario_rect.topright
 
-        self.img_barra_vida = pygame.image.load("assets/cenarios/barra_vida.png").convert_alpha()
+        self.img_barra_vida = pygame.image.load(caminho_asset("cenarios/barra_vida.png")).convert_alpha()
         self.barra_vida = pygame.transform.scale(self.img_barra_vida, (190, 50))
         self.barra_vida_rect = self.barra_vida.get_rect()
         self.barra_vida_rect.y = self.alt_cenario // 2 + 95
@@ -114,7 +114,7 @@ class Combate:
         # CARTAS ---------------------------------------
         self.larg_cartas = 160
         self.alt_cartas = self.alt_painel - 40
-        self.img_carta_ataque = pygame.image.load("assets/cartas/carta_ataque.png").convert_alpha()
+        self.img_carta_ataque = pygame.image.load(caminho_asset("cartas/carta_ataque.png")).convert_alpha()
         self.carta_ataque = pygame.transform.scale(self.img_carta_ataque, (self.larg_cartas, self.alt_cartas))
         self.carta_ataque_rect = self.carta_ataque.get_rect(
                     midleft=(
@@ -122,7 +122,7 @@ class Combate:
                             self.painel_rect.centery
                         ))
 
-        self.img_carta_defesa = pygame.image.load("assets/cartas/carta_defesa.png").convert_alpha()
+        self.img_carta_defesa = pygame.image.load(caminho_asset("cartas/carta_defesa.png")).convert_alpha()
         self.carta_defesa = pygame.transform.scale(self.img_carta_defesa, (self.larg_cartas, self.alt_cartas))
         self.carta_defesa_rect = self.carta_defesa.get_rect(
                     midleft=(

@@ -1,5 +1,5 @@
 import pygame
-from config import alt_tela, larg_tela
+from config import alt_tela, larg_tela, caminho_asset
 from botao import Botao
 from textos import desenhar_texto
 
@@ -19,14 +19,14 @@ class Menu:
                            self.larg_botao, self.alt_botao, "Como jogar", (255, 255, 255),
                            self.texto_maior, (224, 221, 8), (214, 211, 0))
 
-        img = pygame.image.load("assets/cenarios/Campo aberto.png").convert_alpha()
+        img = pygame.image.load(caminho_asset("cenarios/Campo aberto.png")).convert_alpha()
         self.fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
 
         self.efeito_escuro = pygame.Surface((larg_tela, alt_tela))
         self.efeito_escuro.fill((0,0,0))
         self.efeito_escuro.set_alpha(230)
 
-        img_container = pygame.image.load("assets/cenarios/container_menu.png").convert_alpha()
+        img_container = pygame.image.load(caminho_asset("cenarios/container_menu.png")).convert_alpha()
         self.larg_container = 550
         self.alt_container = 650
         self.container = pygame.transform.scale(img_container, (self.larg_container, self.alt_container))

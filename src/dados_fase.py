@@ -1,4 +1,3 @@
-import pygame
 from dados_inimigos import Slime_azul, Slime_verde
 
 dados = {

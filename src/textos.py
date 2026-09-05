@@ -1,4 +1,3 @@
-import pygame
                 # função para quebrar textos grandes
 def desenhar_texto(superficie, lista_paragrafos, x, y, largura_maxima, fonte, cor):
     pos_y = y 

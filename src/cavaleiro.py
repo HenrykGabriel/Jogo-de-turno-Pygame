@@ -1,4 +1,5 @@
-import pygame
+from config import caminho_asset
+
 
 class Cavaleiro:
 
@@ -6,7 +7,7 @@ class Cavaleiro:
 
         self.classe = "Cavaleiro"
 
-        self.caminho_imagem = "assets/cavaleiro/Cavaleiro.png"
+        self.caminho_imagem = caminho_asset("cavaleiro/Cavaleiro.png")
 
         self.vida_maxima = 60
 
@@ -23,5 +24,7 @@ class Cavaleiro:
         self.escudo = 5
 
         self.larg_frame = 220
+
         self.alt_frame = 220
+        
         self.qtd_frames = 10

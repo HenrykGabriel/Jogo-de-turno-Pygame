@@ -1,4 +1,5 @@
 import pygame
+from config import caminho_asset
 
 pygame.init()
 
@@ -7,12 +8,12 @@ pygame.mixer.init()
 class Sons:
     def __init__(self):
 
-        self.musica_fundo = "sounds/musica_fundo.mp3"
+        self.musica_fundo = caminho_asset("sounds/musica_fundo.mp3")
 
         self.volume_musica = 0.3
         self.volume_efeito = 0.8
 
-        self.clique = pygame.mixer.Sound("sounds/clique.mp3") 
+        self.clique = pygame.mixer.Sound(caminho_asset("sounds/clique.mp3")) 
 
         self.clique.set_volume(self.volume_efeito)
 

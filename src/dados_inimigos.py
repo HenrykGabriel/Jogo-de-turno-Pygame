@@ -1,3 +1,4 @@
+from config import caminho_asset
 
 Slime_azul = {
     "nome": "Slime azul",
@@ -6,7 +7,7 @@ Slime_azul = {
     "esquiva": 1,
     "chance_critico": 1,
     "critico": 1.1,
-    "caminho": "assets/inimigos/Slime_azul.png",
+    "caminho": caminho_asset("inimigos/Slime_azul.png"),
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10
@@ -19,7 +20,7 @@ Slime_verde = {
     "esquiva": 1,
     "chance_critico": 1,
     "critico": 1.2,
-    "caminho": "assets/inimigos/Slime_verde.png",
+    "caminho": caminho_asset("inimigos/Slime_verde.png"),
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10
