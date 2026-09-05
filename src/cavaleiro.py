@@ -15,11 +15,11 @@ class Cavaleiro:
 
         self.dano = 7
 
-        self.chance_critico = 3
+        self.chance_critico = 80
 
         self.critico = 1.5
 
-        self.esquiva = 3
+        self.esquiva = 100
 
         self.escudo = 5
 
@@ -27,4 +27,4 @@ class Cavaleiro:
 
         self.alt_frame = 220
         
-        self.qtd_frames = 10
+        self.qtd_frames = 9

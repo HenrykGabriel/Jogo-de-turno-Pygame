@@ -36,7 +36,7 @@ class Gerenciador:
 
                 self.jogando = True
 
-            self.combate.comecar(janela, self.inimigos, self.jogador, eventos, self.cenario_atual)
+            self.combate.comecar(janela, eventos, self.cenario_atual)
 
     def criar_inimigos(self):
 

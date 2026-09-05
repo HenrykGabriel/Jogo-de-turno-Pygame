@@ -53,7 +53,7 @@ while rodando:
 
     elif estado == "jogando":
 
-        gerenciador.rodar(janela, jogador)
+        gerenciador.rodar(janela, eventos)
 
     pygame.display.update()
 

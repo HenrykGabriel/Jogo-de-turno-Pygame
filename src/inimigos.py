@@ -61,6 +61,8 @@ class Inimigo:
 
         self.iniciar_ataque()
 
+        dano_critico = False
+
         self.dano_normal = self.dano
         
         num = random.randint(1, 100)
@@ -69,23 +71,33 @@ class Inimigo:
 
             dano_final = self.dano * self.critico
 
+            dano_critico = True
+
         else:
 
             dano_final = self.dano
 
-        jogador.receber_dano(dano_final)
+        return jogador.receber_dano(dano_final, dano_critico)
 
-    def receber_dano(self, dano_jogador):
+    def receber_dano(self, dano_jogador, dano_critico):
 
         num = random.randint(1, 100)
         
         if num <= self.esquiva:
 
-            pass
+            return "ESQUIVOU"
 
         else:
 
             self.vida -= dano_jogador
+            
+            if dano_critico == True:
+
+                return f"DANO CRITÍCO: {dano_jogador}"
+            
+            else:
+
+                return dano_jogador
 
     def draw(self, janela):
 
@@ -93,7 +105,7 @@ class Inimigo:
 
             tempo_atual = pygame.time.get_ticks()
 
-            if tempo_atual - self.tempo_frame <= self.velocidade_animacao:
+            if tempo_atual - self.tempo_frame >= self.velocidade_animacao:
 
                 self.tempo_frame = tempo_atual
 

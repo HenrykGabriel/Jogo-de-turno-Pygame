@@ -9,6 +9,8 @@ class Combate:
         self.inimigos = inimigos
 
         self.fontes = Fontes()
+        self.titulo = self.fontes.titulo
+        self.texto_maior = self.fontes.texto_maior
         self.texto_normal = self.fontes.texto_normal
         self.texto_pequeno = self.fontes.texto_pequeno
         self.texto_normal_bold = self.fontes.texto_normal_bold
@@ -17,8 +19,6 @@ class Combate:
         self.turno = "jogador"
 
         self.inimigo_selecionado = None
-
-        self.turno = "jogador"
 
         self.larg_painel = larg_tela
         
@@ -130,14 +130,90 @@ class Combate:
                             self.painel_rect.centery
                         ))
 
+        self.personagem_acao = None
 
-    def comecar(self, janela, inimigos, jogador, eventos, cenario_atual):
+        self.resultado = None
+
+        self.tempo_resultado = pygame.time.get_ticks()
+
+        self.acao = None
+
+        self.indice_inimigo = 0
+
+        self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, (255, 251, 0))
+        self.escolher_carta_rect = self.escolher_carta.get_rect(
+                    midtop=(
+                            self.cenario_rect.centerx - 30,
+                            self.cenario_rect.top + 40
+                        ))
+
+        self.escolher_oponente = self.texto_maior.render("Escolha um oponente", True, (255, 251, 0))
+        self.escolher_oponente_rect = self.escolher_oponente.get_rect(
+                    midtop=(
+                            self.cenario_rect.centerx - 40,
+                            self.cenario_rect.top + 40
+                        ))
+
+
+    def comecar(self, janela, eventos, cenario_atual):
 
         self.draw(janela, cenario_atual)
 
+        if self.turno == "jogador":
+
+            if self.acao is None:
+                self.acao = self.clicou_carta(eventos)
+
+            if self.acao == "atacar":
+
+                self.inimigo_selecionado = self.clicou_inimigo(eventos)
+
+                if self.inimigo_selecionado is not None:
+
+                    self.resultado = self.jogador.atacar(
+                        self.inimigo_selecionado
+                    )
+
+                    self.personagem_acao = self.inimigo_selecionado
+
+                    self.tempo_resultado = pygame.time.get_ticks()
+                    self.tempo_turno = pygame.time.get_ticks()
+
+                    if self.inimigo_selecionado.vida <= 0:
+                        self.inimigos.remove(self.inimigo_selecionado)
+
+                    self.acao = None
+
+                    if len(self.inimigos) > 0:
+                        self.turno = "inimigos"
+
+                    else:
+                        pass
+
+        if self.turno == "inimigos":
+
+            if pygame.time.get_ticks() - self.tempo_turno >= 1500:
+
+                if self.indice_inimigo < len(self.inimigos):
+                    inimigo = self.inimigos[self.indice_inimigo]
+
+                    self.resultado = inimigo.atacar(self.jogador)
+                    self.personagem_acao = self.jogador
+                    self.tempo_resultado = pygame.time.get_ticks()
+
+                    self.tempo_turno = pygame.time.get_ticks()
+                    self.indice_inimigo += 1
+
+                if self.indice_inimigo >= len(self.inimigos):
+
+                    self.indice_inimigo = 0
+                    self.turno = "jogador"
+
     def draw(self, janela, cenario_atual):
 
-        inimigo = self.inimigos[0]
+        if self.inimigos:
+            inimigo = self.inimigos[0]
+            self.draw_atributos_inimigo(janela, inimigo)
 
         if cenario_atual == "Campo aberto":
             janela.blit(self.campo_aberto, (0, 0))
@@ -157,6 +233,16 @@ class Combate:
         self.draw_cartas(janela)
 
         self.draw_atributos_inimigo(janela, inimigo)
+
+        self.mostrar_resultado(janela, self.personagem_acao)
+
+        if self.acao == None and self.turno == "jogador":
+
+            janela.blit(self.escolher_carta, self.escolher_carta_rect)
+
+        if self.turno == "jogador" and self.acao == "atacar":
+
+            janela.blit(self.escolher_oponente, self.escolher_oponente_rect)
 
     def posicionar_inimigos(self):
 
@@ -244,7 +330,6 @@ class Combate:
         janela.blit(inimigo_chance_critico, inimigo_chance_critico_rect)
         janela.blit(inimigo_critico, inimigo_critico_rect)
 
-
     def draw_barra_vida(self, janela, personagem, cor):
 
         self.barra_vida_rect = self.barra_vida.get_rect(
@@ -260,8 +345,6 @@ class Combate:
             170,
             35
         )
-
-
 
         porcentagem = personagem.vida / personagem.vida_maxima
 
@@ -287,4 +370,52 @@ class Combate:
 
         janela.blit(vida_vida_maxima, vida_vida_maxima_rect)
 
-        
+    def clicou_carta(self, eventos):
+
+        for evento in eventos:
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                if evento.button == 1:
+
+                    if self.carta_ataque_rect.collidepoint(evento.pos):
+                        return "atacar"
+
+                    elif self.carta_defesa_rect.collidepoint(evento.pos):
+                        return "defender"
+
+        return None    
+
+    def clicou_inimigo(self, eventos):
+    
+            for evento in eventos:
+                if evento.type == pygame.MOUSEBUTTONDOWN:
+                    if evento.button == 1:
+                        for inimigo in self.inimigos:
+                            if inimigo.rect.collidepoint(evento.pos):
+                                return inimigo
+            
+            return None 
+                                        # é o personagem em que aconteceu a ação, ex: o jogador atacou
+                                        # e o inimigo se esquivou, o inimigo é personagem
+    def mostrar_resultado(self, janela, personagem):
+        if self.resultado is None:
+            return
+
+        tempo_atual = pygame.time.get_ticks()
+
+        if tempo_atual - self.tempo_resultado < 1500:
+
+            texto = self.texto_maior.render(
+                str(self.resultado),
+                True,
+                (207, 6, 6)
+            )
+
+            rect = texto.get_rect(
+                center=(personagem.rect.centerx,
+                        personagem.rect.top - 30)
+            )
+
+            janela.blit(texto, rect)
+
+        else:
+            self.resultado = None

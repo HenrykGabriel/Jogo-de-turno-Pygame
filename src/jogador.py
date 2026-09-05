@@ -49,7 +49,19 @@ class Jogador:
 
             self.frames_ataque.append(frame_redimensionado)
 
+    def iniciar_ataque(self):
+    
+        self.atacando = True
+
+        self.frame_atual = 0
+
+        self.tempo_frame = pygame.time.get_ticks()
+
     def atacar(self, inimigo):
+
+        self.iniciar_ataque()
+
+        dano_critico = False
 
         self.dano_normal = self.dano
 
@@ -58,24 +70,33 @@ class Jogador:
         if num <= self.chance_critico:
 
             dano_final = self.dano * self.critico
+            dano_critico = True
 
         else:
 
             dano_final = self.dano
 
-        inimigo.receber_dano(dano_final)
+        return inimigo.receber_dano(dano_final, dano_critico)
 
-    def receber_dano(self, dano_inimigo):
+    def receber_dano(self, dano_inimigo, dano_critico):
 
         num = random.randint(1, 100)
 
         if num <= self.esquiva:
 
-            pass
+            return "ESQUIVOU"
 
         else:
 
             self.vida -= dano_inimigo
+
+            if dano_critico == True:
+
+                return f"DANO CRITÍCO: {dano_inimigo}"
+            
+            else:
+
+                return dano_inimigo
 
     def draw(self, janela):
 
@@ -83,7 +104,7 @@ class Jogador:
         
             tempo_atual = pygame.time.get_ticks()
 
-            if tempo_atual - self.tempo_frame <= self.velocidade_animacao:
+            if tempo_atual - self.tempo_frame >= self.velocidade_animacao:
 
                 self.tempo_frame = tempo_atual
 
