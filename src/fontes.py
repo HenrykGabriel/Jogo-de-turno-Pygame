@@ -8,6 +8,8 @@ class Fontes:
 
         self.texto_maior = pygame.font.Font(caminho_asset("fonts/Cinzel-Bold.ttf"), 40)
 
+        self.texto_medio = pygame.font.Font(caminho_asset("fonts/Cinzel-Bold.ttf"), 30)
+
         self.texto_normal_bold = pygame.font.Font(caminho_asset("fonts/Cinzel-Bold.ttf"), 22)
 
         self.texto_normal = pygame.font.Font(caminho_asset("fonts/Cinzel-Medium.ttf"), 20)

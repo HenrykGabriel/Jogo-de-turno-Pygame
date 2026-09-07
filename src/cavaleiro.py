@@ -15,11 +15,11 @@ class Cavaleiro:
 
         self.dano = 7
 
-        self.chance_critico = 80
+        self.chance_critico = 3
 
         self.critico = 1.5
 
-        self.esquiva = 100
+        self.esquiva = 3
 
         self.escudo = 5
 

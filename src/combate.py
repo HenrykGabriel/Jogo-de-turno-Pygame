@@ -8,6 +8,8 @@ class Combate:
 
         self.inimigos = inimigos
 
+        # FONTES --------------------------------------------
+
         self.fontes = Fontes()
         self.titulo = self.fontes.titulo
         self.texto_maior = self.fontes.texto_maior
@@ -15,6 +17,8 @@ class Combate:
         self.texto_pequeno = self.fontes.texto_pequeno
         self.texto_normal_bold = self.fontes.texto_normal_bold
         self.texto_pequeno_bold = self.fontes.texto_pequeno_bold
+        self.texto_medio = self.fontes.texto_medio
+        # ---------------------------------------------------
 
         self.turno = "jogador"
 
@@ -62,7 +66,7 @@ class Combate:
 
         self.posicionar_inimigos()
 
-        # ATRIBUTOS
+        # ATRIBUTOS JOGADOR -------------------------------------------
         self.jogador_classe = self.texto_normal_bold.render(f"Classe: {self.jogador.classe}", True, (255, 251, 0))
         self.jogador_classe_rect = self.jogador_classe.get_rect(
                     midleft=(
@@ -130,6 +134,8 @@ class Combate:
                             self.painel_rect.centery
                         ))
 
+        # GERAIS ----------------------------------
+
         self.personagem_acao = None
 
         self.resultado = None
@@ -139,7 +145,9 @@ class Combate:
         self.acao = None
 
         self.indice_inimigo = 0
+        # ---------------------------------------
 
+        # MENSAGENS PARA ORIENTAR O JOGADOR -------------------------
         self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, (255, 251, 0))
         self.escolher_carta_rect = self.escolher_carta.get_rect(
                     midtop=(
@@ -192,7 +200,7 @@ class Combate:
 
         if self.turno == "inimigos":
 
-            if pygame.time.get_ticks() - self.tempo_turno >= 1500:
+            if pygame.time.get_ticks() - self.tempo_turno >= 1700:
 
                 if self.indice_inimigo < len(self.inimigos):
                     inimigo = self.inimigos[self.indice_inimigo]
@@ -402,9 +410,9 @@ class Combate:
 
         tempo_atual = pygame.time.get_ticks()
 
-        if tempo_atual - self.tempo_resultado < 1500:
+        if tempo_atual - self.tempo_resultado < 1700:
 
-            texto = self.texto_maior.render(
+            texto = self.texto_medio.render(
                 str(self.resultado),
                 True,
                 (207, 6, 6)
@@ -412,7 +420,7 @@ class Combate:
 
             rect = texto.get_rect(
                 center=(personagem.rect.centerx,
-                        personagem.rect.top - 30)
+                        personagem.rect.top - 5)
             )
 
             janela.blit(texto, rect)
