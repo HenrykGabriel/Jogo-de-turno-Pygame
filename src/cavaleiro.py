@@ -21,7 +21,7 @@ class Cavaleiro:
 
         self.esquiva = 3
 
-        self.escudo = 5
+        self.escudo_maximo = 5
 
         self.larg_frame = 220
 

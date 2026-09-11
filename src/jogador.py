@@ -17,7 +17,8 @@ class Jogador:
         self.esquiva = classe.esquiva
         self.chance_critico = classe.chance_critico
         self.critico = classe.critico
-        self.escudo = classe.escudo
+        self.escudo_maximo = classe.escudo_maximo
+        self.escudo = 0
 
         # Lógica de Frames de Animação
         frame_width = self.sprite_sheet.get_width() // self.qtd_frames
@@ -88,15 +89,49 @@ class Jogador:
 
         else:
 
-            self.vida -= dano_inimigo
+            if self.escudo > 0:
 
-            if dano_critico == True:
+                escudo_absorveu = self.escudo
 
-                return f"DANO CRITÍCO: {dano_inimigo}"
-            
+                if dano_inimigo <= self.escudo:
+
+                    self.escudo -= dano_inimigo
+                    dano_inimigo = 0
+
+                    escudo_absorveu = dano_inimigo
+
+                else:
+
+                    dano_inimigo -= self.escudo
+
+                    self.escudo = 0
+
+                    self.vida -= dano_inimigo
+
+                    if dano_critico == True:
+
+                        return f"CRITÍCO: {dano_inimigo + escudo_absorveu} | ESCUDO: {escudo_absorveu} | DANO: {dano_inimigo}"
+                    
+                    else:
+
+                        return dano_inimigo
+
             else:
 
-                return dano_inimigo
+                self.vida -= dano_inimigo
+                
+                if dano_critico == True:
+
+                    return f"CRITÍCO: {dano_inimigo}"
+                
+                else:
+
+                    return dano_inimigo
+
+
+    def ativar_escudo(self):
+
+        self.escudo = self.escudo_maximo
 
     def draw(self, janela):
 
