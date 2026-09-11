@@ -1,5 +1,6 @@
 import pygame
 import random
+from config import caminho_asset
 
 class Jogador:
     def __init__(self, classe):
@@ -9,6 +10,10 @@ class Jogador:
         self.larg_frame = classe.larg_frame
         self.alt_frame = classe.alt_frame
         self.qtd_frames = classe.qtd_frames
+
+        # Sons
+
+        self.som_ataque = pygame.mixer.Sound(classe.som_ataque)
         
         # Atributos
         self.vida_maxima = classe.vida_maxima
@@ -31,6 +36,11 @@ class Jogador:
         # A imagem atual que será desenhada na tela
         self.imagem = self.imagem_parado
         self.rect = self.imagem.get_rect()
+
+        # IMAGEM DO ESCUDO
+        self.img_escudo = pygame.image.load(caminho_asset("escudo/Escudo.png"))
+        self.imagem_escudo = pygame.transform.scale(self.img_escudo, (80, 160))
+        self.imagem_escudo_rect = self.imagem_escudo.get_rect()
 
         # ESTADOS E CONTROLE DE ANIMAÇÃO
         self.frame_atual = 0
@@ -77,28 +87,29 @@ class Jogador:
 
             dano_final = self.dano
 
+        self.som_ataque.play()
+
         return inimigo.receber_dano(dano_final, dano_critico)
 
     def receber_dano(self, dano_inimigo, dano_critico):
+
+        resultado = None
 
         num = random.randint(1, 100)
 
         if num <= self.esquiva:
 
-            return "ESQUIVOU"
+            resultado = "ESQUIVOU"
 
         else:
 
             if self.escudo > 0:
 
-                escudo_absorveu = self.escudo
-
                 if dano_inimigo <= self.escudo:
 
                     self.escudo -= dano_inimigo
-                    dano_inimigo = 0
 
-                    escudo_absorveu = dano_inimigo
+                    resultado = "BLOQUEADO"
 
                 else:
 
@@ -110,11 +121,11 @@ class Jogador:
 
                     if dano_critico == True:
 
-                        return f"CRITÍCO: {dano_inimigo + escudo_absorveu} | ESCUDO: {escudo_absorveu} | DANO: {dano_inimigo}"
+                        resultado = f"CRITÍCO: {dano_inimigo}"
                     
                     else:
 
-                        return dano_inimigo
+                        resultado = dano_inimigo
 
             else:
 
@@ -122,11 +133,13 @@ class Jogador:
                 
                 if dano_critico == True:
 
-                    return f"CRITÍCO: {dano_inimigo}"
+                    resultado = f"CRITÍCO: {dano_inimigo}"
                 
                 else:
 
-                    return dano_inimigo
+                    resultado = dano_inimigo
+
+        return resultado
 
 
     def ativar_escudo(self):
@@ -162,3 +175,12 @@ class Jogador:
             self.imagem = self.imagem_parado
 
         janela.blit(self.imagem, self.rect)
+
+        if self.escudo > 0:
+
+            self.imagem_escudo_rect.midleft = (
+                    self.rect.right - 10,
+                    self.rect.centery
+                )
+
+            janela.blit(self.imagem_escudo, self.imagem_escudo_rect)

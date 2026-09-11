@@ -28,3 +28,5 @@ class Cavaleiro:
         self.alt_frame = 220
         
         self.qtd_frames = 9
+
+        self.som_ataque = caminho_asset("sounds/som_classes/som_ataque_cavaleiro.mp3")

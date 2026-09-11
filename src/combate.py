@@ -32,7 +32,7 @@ class Combate:
 
         self.alt_cenario = alt_tela - self.alt_painel
 
-        # CENARIO 1 - CAMPO ABERTO
+        # CENARIO 1 - CAMPO ABERTO -------------------------------------
         self.img_campo_aberto = pygame.image.load(caminho_asset("cenarios/Campo aberto.png")).convert_alpha()
 
         self.campo_aberto = pygame.transform.scale(self.img_campo_aberto, (self.larg_cenario, self.alt_cenario))
@@ -50,17 +50,22 @@ class Combate:
         self.painel_menor_rect = self.painel_menor.get_rect()
         self.painel_menor_rect.topright = self.cenario_rect.topright
 
+        # BARRA DE VIDA E DE ESCUDO --------------------------------
+
         self.img_barra_vida = pygame.image.load(caminho_asset("cenarios/barra_vida.png")).convert_alpha()
         self.barra_vida = pygame.transform.scale(self.img_barra_vida, (190, 50))
         self.barra_vida_rect = self.barra_vida.get_rect()
         self.barra_vida_rect.y = self.alt_cenario // 2 + 95
 
+        self.barra_escudo = pygame.transform.scale(self.img_barra_vida, (130, 35))
+        self.barra_escudo_rect = self.barra_escudo.get_rect()
+
         # -------------------------------------
-        
+        # POSIÇÃO DO JOGADOR 
         self.jogador.rect = self.jogador.imagem.get_rect()
 
         self.jogador.rect.center = (
-            self.cenario_rect.centerx - 240,
+            self.cenario_rect.centerx - 260,
             self.cenario_rect.centery + 10
         )
 
@@ -142,6 +147,8 @@ class Combate:
 
         self.tempo_resultado = pygame.time.get_ticks()
 
+        self.tempo_turno = pygame.time.get_ticks()
+
         self.acao = None
 
         self.indice_inimigo = 0
@@ -198,6 +205,17 @@ class Combate:
                     else:
                         pass
 
+            elif self.acao == "defender":
+
+                self.jogador.ativar_escudo()
+
+                self.acao = None
+
+                self.tempo_resultado = pygame.time.get_ticks()
+                self.tempo_turno = pygame.time.get_ticks()
+
+                self.turno = "inimigos"
+
         if self.turno == "inimigos":
 
             if pygame.time.get_ticks() - self.tempo_turno >= 1700:
@@ -230,6 +248,7 @@ class Combate:
 
         self.jogador.draw(janela)
         self.draw_barra_vida(janela, self.jogador, (14, 222, 17))
+        self.draw_barra_escudo(janela)
 
         for inimigo in self.inimigos:
 
@@ -365,8 +384,8 @@ class Combate:
             area_vida.height
         )
 
-        vida_vida_maxima = self.texto_normal_bold.render(f"{personagem.vida}/{personagem.vida_maxima}", True, (255, 255, 255))
-        vida_vida_maxima_rect = vida_vida_maxima.get_rect(
+        quant_vida = self.texto_normal_bold.render(f"{personagem.vida}/{personagem.vida_maxima}", True, (255, 255, 255))
+        quant_vida_rect = quant_vida.get_rect(
                 midleft=(
                         self.barra_vida_rect.left + 30,
                         self.barra_vida_rect.centery
@@ -376,7 +395,49 @@ class Combate:
 
         pygame.draw.rect(janela, cor, vida_rect, 0, 5)
 
-        janela.blit(vida_vida_maxima, vida_vida_maxima_rect)
+        janela.blit(quant_vida, quant_vida_rect)
+
+    def draw_barra_escudo(self, janela):
+
+        if self.jogador.escudo > 0:
+
+            self.barra_escudo_rect = self.barra_escudo.get_rect(
+                    center=(
+                        self.jogador.rect.centerx,
+                        self.jogador.rect.centery + 150
+                    )
+                )
+            
+            area_escudo = pygame.Rect(
+                self.barra_escudo_rect.left + 6,
+                self.barra_escudo_rect.top + 4,
+                118,
+                27
+            )
+    
+            porcentagem = self.jogador.escudo / self.jogador.escudo_maximo
+    
+            largura_escudo = area_escudo.width * porcentagem
+    
+            escudo_rect = pygame.Rect(
+                area_escudo.left,
+                area_escudo.top,
+                largura_escudo,
+                area_escudo.height
+            )
+    
+            quant_escudo = self.texto_normal_bold.render(f"{self.jogador.escudo}/{self.jogador.escudo_maximo}", True, (255, 255, 255))
+            quant_escudo_rect = quant_escudo.get_rect(
+                    midleft=(
+                            self.barra_escudo_rect.left + 20,
+                            self.barra_escudo_rect.centery
+                        ))
+    
+            janela.blit(self.barra_escudo, self.barra_escudo_rect)
+    
+            pygame.draw.rect(janela, (10, 91, 245), escudo_rect, 0, 5)
+    
+            janela.blit(quant_escudo, quant_escudo_rect)
 
     def clicou_carta(self, eventos):
 
@@ -402,8 +463,9 @@ class Combate:
                                 return inimigo
             
             return None 
-                                        # é o personagem em que aconteceu a ação, ex: o jogador atacou
-                                        # e o inimigo se esquivou, o inimigo é personagem
+                                    # é o personagem em que aconteceu a ação, ex: o jogador atacou
+                                    # e o inimigo se esquivou, o inimigo é personagem
+
     def mostrar_resultado(self, janela, personagem):
         if self.resultado is None:
             return
