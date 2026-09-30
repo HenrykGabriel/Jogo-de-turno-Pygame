@@ -203,7 +203,7 @@ class Combate:
                         self.turno = "inimigos"
 
                     else:
-                        pass
+                        return "vitoria"
 
             elif self.acao == "defender":
 
@@ -229,6 +229,9 @@ class Combate:
 
                     self.tempo_turno = pygame.time.get_ticks()
                     self.indice_inimigo += 1
+
+                    if self.jogador.vida <= 0:
+                        return "derrota"
 
                 if self.indice_inimigo >= len(self.inimigos):
 

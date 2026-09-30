@@ -23,20 +23,25 @@ class Gerenciador:
 
     def rodar(self, janela, eventos):
 
-        if self.cenario_atual == "Campo aberto" and self.fase_atual == 1:
+        if self.jogando == False:
 
-            if self.jogando == False:
+            self.inimigos = self.criar_inimigos()
 
-                self.inimigos = self.criar_inimigos()
+            self.combate = Combate(
+                self.jogador,
+                self.inimigos
+            )
 
-                self.combate = Combate(
-                    self.jogador,
-                    self.inimigos
-                )
+            self.jogando = True
 
-                self.jogando = True
+        resultado = self.combate.comecar(janela, eventos, self.cenario_atual)
 
-            self.combate.comecar(janela, eventos, self.cenario_atual)
+        if resultado == "vitoria":
+            self.fase_atual += 1
+            self.jogando = False
+
+        elif resultado == "derrota":
+            self.jogando = False
 
     def criar_inimigos(self):
 
