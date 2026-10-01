@@ -37,6 +37,12 @@ class Combate:
 
         self.campo_aberto = pygame.transform.scale(self.img_campo_aberto, (self.larg_cenario, self.alt_cenario))
 
+        # CENARIO 2 - DESERTO -------------------------------------
+
+        self.img_deserto = pygame.image.load(caminho_asset("cenarios/Deserto.png")).convert_alpha()
+        
+        self.deserto = pygame.transform.scale(self.img_deserto, (self.larg_cenario, self.alt_cenario))
+
         self.cenario_rect = self.campo_aberto.get_rect()
 
         #  PAINEIS ------------------------------------------------------
@@ -45,10 +51,32 @@ class Combate:
         self.painel_rect = self.painel.get_rect(bottom=alt_tela)
 
         self.img_painel_menor = pygame.image.load(caminho_asset("cenarios/painel_menor.png")).convert_alpha()
-        self.painel_menor = pygame.transform.scale(self.img_painel_menor, ((self.larg_painel//3)-40, self.alt_painel - 120))
+        self.painel_menor = pygame.transform.scale(self.img_painel_menor, (self.larg_painel//2+150, 400))
 
-        self.painel_menor_rect = self.painel_menor.get_rect()
-        self.painel_menor_rect.topright = self.cenario_rect.topright
+        self.painel_menor_rect = self.painel_menor.get_rect(
+            center=(
+                self.cenario_rect.centerx,
+                self.cenario_rect.centery
+            )
+        )
+
+        # EFEITO ESCURO ------------------------------------------------------
+
+        self.efeito_escuro = pygame.Surface((larg_tela, alt_tela))
+        self.efeito_escuro.fill((0,0,0))
+        self.efeito_escuro.set_alpha(200)
+
+        # ICONES ------------------------------------------------------
+
+        img_livro = pygame.image.load(
+            caminho_asset("cenarios/icone_livro.png")
+        ).convert_alpha()
+
+        self.livro = pygame.transform.scale(img_livro, (60, 60))
+
+        self.livro_rect = self.livro.get_rect(
+            topright=(larg_tela - 20, 20)
+        )
 
         # BARRA DE VIDA E DE ESCUDO --------------------------------
 
@@ -152,25 +180,30 @@ class Combate:
         self.acao = None
 
         self.indice_inimigo = 0
+
+        self.ver_atributos = False
+
         # ---------------------------------------
 
         # MENSAGENS PARA ORIENTAR O JOGADOR -------------------------
         self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, (255, 251, 0))
         self.escolher_carta_rect = self.escolher_carta.get_rect(
                     midtop=(
-                            self.cenario_rect.centerx - 30,
+                            self.cenario_rect.centerx,
                             self.cenario_rect.top + 40
                         ))
 
         self.escolher_oponente = self.texto_maior.render("Escolha um oponente", True, (255, 251, 0))
         self.escolher_oponente_rect = self.escolher_oponente.get_rect(
                     midtop=(
-                            self.cenario_rect.centerx - 40,
+                            self.cenario_rect.centerx,
                             self.cenario_rect.top + 40
                         ))
 
 
     def comecar(self, janela, eventos, cenario_atual):
+
+        self.clicou_atributos(eventos)
 
         self.draw(janela, cenario_atual)
 
@@ -240,10 +273,6 @@ class Combate:
 
     def draw(self, janela, cenario_atual):
 
-        if self.inimigos:
-            inimigo = self.inimigos[0]
-            self.draw_atributos_inimigo(janela, inimigo)
-
         if cenario_atual == "Campo aberto":
             janela.blit(self.campo_aberto, (0, 0))
 
@@ -262,8 +291,6 @@ class Combate:
 
         self.draw_cartas(janela)
 
-        self.draw_atributos_inimigo(janela, inimigo)
-
         self.mostrar_resultado(janela, self.personagem_acao)
 
         if self.acao == None and self.turno == "jogador":
@@ -273,6 +300,16 @@ class Combate:
         if self.turno == "jogador" and self.acao == "atacar":
 
             janela.blit(self.escolher_oponente, self.escolher_oponente_rect)
+
+        if self.inimigos:
+        
+            inimigo = self.inimigos[0]
+
+            if self.ver_atributos:
+                janela.blit(self.efeito_escuro, (0,0))
+                self.draw_atributos_inimigo(janela, inimigo)
+            else:
+                janela.blit(self.livro, self.livro_rect)
 
     def posicionar_inimigos(self):
 
@@ -311,54 +348,112 @@ class Combate:
 
         janela.blit(self.painel_menor, self.painel_menor_rect)
 
-        inimigo_nome = self.texto_pequeno_bold.render(f"Nome: {inimigo.nome}", True, (255, 251, 0))
+        # NOME
+        inimigo_nome = self.texto_maior.render(
+            f"{inimigo.nome}",
+            True,
+            (255, 251, 0)
+        )
+
         inimigo_nome_rect = inimigo_nome.get_rect(
-                    midleft=(
-                            self.painel_menor_rect.left + 40,
-                            self.painel_menor_rect.top + 20
-                        ))
-        
-        inimigo_vida = self.texto_pequeno.render(f"Vida: {inimigo.vida_maxima}", True, (255, 251, 0))
+            center=(
+                self.painel_menor_rect.centerx,
+                self.painel_menor_rect.top + 70
+            )
+        )
+
+        # VIDA
+        inimigo_vida = self.texto_medio.render(
+            f"Vida: {inimigo.vida_maxima}",
+            True,
+            (255, 251, 0)
+        )
+
         inimigo_vida_rect = inimigo_vida.get_rect(
-                    midleft=(
-                            self.painel_menor_rect.left + 10,
-                            self.painel_menor_rect.top + 50
-                        ))
+            midleft=(
+                self.painel_menor_rect.centerx - 240,
+                self.painel_menor_rect.top + 140
+            )
+        )
 
-        inimigo_dano = self.texto_pequeno.render(f"Dano: {inimigo.dano}", True, (255, 251, 0))
+        # DANO
+        inimigo_dano = self.texto_medio.render(
+            f"Dano: {inimigo.dano}",
+            True,
+            (255, 251, 0)
+        )
+
         inimigo_dano_rect = inimigo_dano.get_rect(
-                    midleft=(
-                            self.painel_menor_rect.left + 95,
-                            self.painel_menor_rect.top + 50
-                        ))
+            midleft=(
+                self.painel_menor_rect.centerx - 20,
+                self.painel_menor_rect.top + 140
+            )
+        )
 
-        inimigo_esquiva = self.texto_pequeno.render(f"Esquiva: {inimigo.esquiva}", True, (255, 251, 0))
+        # ESQUIVA
+        inimigo_esquiva = self.texto_medio.render(
+            f"Esquiva: {inimigo.esquiva}",
+            True,
+            (255, 251, 0)
+        )
+
         inimigo_esquiva_rect = inimigo_esquiva.get_rect(
-                    midleft=(
-                            self.painel_menor_rect.left + 10,
-                            self.painel_menor_rect.top + 80
-                        ))
+            midleft=(
+                self.painel_menor_rect.centerx - 240,
+                self.painel_menor_rect.top + 220
+            )
+        )
 
-        inimigo_chance_critico = self.texto_pequeno.render(f"Chance de crítico: {inimigo.chance_critico}%", True, (255, 251, 0))
+        # CHANCE DE CRÍTICO
+        inimigo_chance_critico = self.texto_medio.render(
+            f"Chance crítico: {inimigo.chance_critico}%",
+            True,
+            (255, 251, 0)
+        )
+
         inimigo_chance_critico_rect = inimigo_chance_critico.get_rect(
-                    midleft=(
-                            self.painel_menor_rect.left + 95,
-                            self.painel_menor_rect.top + 80
-                        ))
+            midleft=(
+                self.painel_menor_rect.centerx - 20,
+                self.painel_menor_rect.top + 220
+            )
+        )
 
-        inimigo_critico = self.texto_pequeno.render(f"Crítico: {inimigo.critico}X", True, (255, 251, 0))
+        # CRÍTICO
+        inimigo_critico = self.texto_medio.render(
+            f"Crítico: {inimigo.critico}X",
+            True,
+            (255, 251, 0)
+        )
+
         inimigo_critico_rect = inimigo_critico.get_rect(
-                    midleft=(
-                            self.painel_menor_rect.left + 10,
-                            self.painel_menor_rect.top + 110
-                        ))
+            center=(
+                self.painel_menor_rect.centerx,
+                self.painel_menor_rect.top + 300
+            )
+        )
 
+        # DESENHAR
         janela.blit(inimigo_nome, inimigo_nome_rect)
         janela.blit(inimigo_vida, inimigo_vida_rect)
         janela.blit(inimigo_dano, inimigo_dano_rect)
         janela.blit(inimigo_esquiva, inimigo_esquiva_rect)
         janela.blit(inimigo_chance_critico, inimigo_chance_critico_rect)
         janela.blit(inimigo_critico, inimigo_critico_rect)
+
+    def clicou_atributos(self, eventos):
+
+        for evento in eventos:
+
+            if evento.type == pygame.MOUSEBUTTONDOWN:
+                if evento.button == 1:
+
+                    if self.ver_atributos == False:
+
+                        if self.livro_rect.collidepoint(evento.pos):
+                            self.ver_atributos = True
+
+                    else:
+                        self.ver_atributos = False
 
     def draw_barra_vida(self, janela, personagem, cor):
 
@@ -475,6 +570,8 @@ class Combate:
 
         tempo_atual = pygame.time.get_ticks()
 
+        tempo_passado = pygame.time.get_ticks() - self.tempo_resultado
+
         if tempo_atual - self.tempo_resultado < 1700:
 
             texto = self.texto_medio.render(
@@ -487,6 +584,9 @@ class Combate:
                 center=(personagem.rect.centerx,
                         personagem.rect.top - 5)
             )
+
+            subida = tempo_passado * 0.02
+            rect.y -= subida
 
             janela.blit(texto, rect)
 

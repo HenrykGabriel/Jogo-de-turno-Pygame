@@ -139,6 +139,10 @@ class Jogador:
 
                     resultado = dano_inimigo
 
+        if self.vida <= 0:
+
+            self.vida = 0
+
         return resultado
 
 

@@ -30,7 +30,7 @@ fontes = Fontes()
 
 menu = Menu(fontes)
 
-gerenciador = Gerenciador(jogador)
+gerenciador = Gerenciador()
 
 estado = "menu"
 
@@ -44,16 +44,11 @@ while rodando:
 
             rodando = False
 
-    if estado == "menu":
+    resultado = gerenciador.rodar(janela, eventos)
 
-        menu.draw(janela)
-        menu.update(eventos)
-        if menu.update_comecar(eventos) == True:
-            estado = "jogando"
+    if resultado == "sair":
 
-    elif estado == "jogando":
-
-        gerenciador.rodar(janela, eventos)
+        rodando = False
 
     pygame.display.update()
 

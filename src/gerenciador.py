@@ -2,9 +2,14 @@ import pygame
 from inimigos import Inimigo
 from combate import Combate
 from dados_fase import dados
+from jogador import Jogador
+from cavaleiro import Cavaleiro
+from menu import Menu
+from fontes import Fontes
+from tela_resultado import TelaResultado
 
 class Gerenciador:
-    def __init__(self, jogador):
+    def __init__(self):
 
         self.cenario_atual = "Campo aberto"
         
@@ -12,36 +17,86 @@ class Gerenciador:
 
         self.jogando = False
 
-        self.jogador = jogador
+        self.jogador = Jogador(Cavaleiro())
 
         self.inimigos = []
 
         self.combate = None
 
         self.dados = dados
+
+        self.estado = "menu"
+
+        self.resultado_combate = None
+
+        self.acao = None
+
+        self.menu = Menu(Fontes())
+
+        self.tela_resultado = TelaResultado(Fontes())
         
 
     def rodar(self, janela, eventos):
 
-        if self.jogando == False:
+        if self.estado == "menu":
 
-            self.inimigos = self.criar_inimigos()
+            self.menu.draw(janela)
+            self.menu.update(eventos)
 
-            self.combate = Combate(
-                self.jogador,
-                self.inimigos
-            )
+            if self.menu.update_comecar(eventos) == True:
+                self.estado = "jogando"
 
-            self.jogando = True
+        elif self.estado == "jogando":
 
-        resultado = self.combate.comecar(janela, eventos, self.cenario_atual)
+            if self.jogando == False:
 
-        if resultado == "vitoria":
-            self.fase_atual += 1
-            self.jogando = False
+                self.inimigos = self.criar_inimigos()
 
-        elif resultado == "derrota":
-            self.jogando = False
+                self.combate = Combate(
+                    self.jogador,
+                    self.inimigos
+                )
+
+                self.jogando = True
+
+            self.resultado_combate = self.combate.comecar(janela, eventos, self.cenario_atual)
+
+            if self.resultado_combate == "vitoria":
+
+                if self.fase_atual == 3:
+
+                    if self.cenario_atual == "Campo aberto":
+
+                        self.cenario_atual = "Deserto"
+                        self.fase_atual = 1
+                        self.jogando = False
+
+                else:
+
+                    self.fase_atual += 1
+                    self.jogando = False
+
+                self.estado = "tela_resultado"
+
+            elif self.resultado_combate == "derrota":
+                self.jogando = False
+                self.estado = "tela_resultado"
+
+        elif self.estado == "tela_resultado":
+
+            self.acao = self.tela_resultado.rodar(janela, eventos, self.cenario_atual, self.fase_atual, self.resultado_combate)
+
+            if self.acao == "sair":
+                return "sair"
+
+            elif self.acao == "reiniciar":
+                self.estado = "menu"
+                self.menu.estado = "menu"
+                self.jogador = Jogador(Cavaleiro())
+                self.fase_atual = 1
+                self.cenario_atual = "Campo aberto"
+                self.jogando = False
+
 
     def criar_inimigos(self):
 

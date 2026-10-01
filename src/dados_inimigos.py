@@ -3,7 +3,7 @@ from config import caminho_asset
 Slime_azul = {
     "nome": "Slime azul",
     "vida": 10,
-    "dano": 1,
+    "dano": 2,
     "esquiva": 1,
     "chance_critico": 1,
     "critico": 1.1,
@@ -24,4 +24,17 @@ Slime_verde = {
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10
+}
+
+King_slime = {
+    "nome": "King Slime",
+    "vida": 30,
+    "dano": 5,
+    "esquiva": 6,
+    "chance_critico": 4,
+    "critico": 1.75,
+    "caminho": caminho_asset("inimigos/chefes/King Slime.png"),
+    "largura": 170,
+    "altura": 170,
+    "qtd_frames": 8
 }
