@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Inimigo:
-    def __init__(self, nome, vida, dano, esquiva, chance_critico, critico, caminho_sprite, larg_frame, alt_frame, qtd_frames):
+    def __init__(self, nome, vida, dano, esquiva, chance_critico, critico, caminho_sprite, larg_frame, alt_frame, qtd_frames, velocidade_animacao):
 
         self.nome = nome
         self.sprite_sheet = pygame.image.load(caminho_sprite).convert_alpha()
@@ -34,7 +34,7 @@ class Inimigo:
         self.frame_atual = 0
         self.atacando = False 
         self.tempo_frame = pygame.time.get_ticks()
-        self.velocidade_animacao = 50
+        self.velocidade_animacao = velocidade_animacao
 
         self.frames_ataque = []
 

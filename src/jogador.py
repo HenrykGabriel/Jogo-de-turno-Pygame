@@ -37,16 +37,11 @@ class Jogador:
         self.imagem = self.imagem_parado
         self.rect = self.imagem.get_rect()
 
-        # IMAGEM DO ESCUDO
-        self.img_escudo = pygame.image.load(caminho_asset("escudo/Escudo.png"))
-        self.imagem_escudo = pygame.transform.scale(self.img_escudo, (80, 160))
-        self.imagem_escudo_rect = self.imagem_escudo.get_rect()
-
         # ESTADOS E CONTROLE DE ANIMAÇÃO
         self.frame_atual = 0
         self.atacando = False 
         self.tempo_frame = pygame.time.get_ticks()
-        self.velocidade_animacao = 50
+        self.velocidade_animacao = classe.velocidade_animacao
 
         self.frames_ataque = []
 
@@ -179,12 +174,3 @@ class Jogador:
             self.imagem = self.imagem_parado
 
         janela.blit(self.imagem, self.rect)
-
-        if self.escudo > 0:
-
-            self.imagem_escudo_rect.midleft = (
-                    self.rect.right - 10,
-                    self.rect.centery
-                )
-
-            janela.blit(self.imagem_escudo, self.imagem_escudo_rect)

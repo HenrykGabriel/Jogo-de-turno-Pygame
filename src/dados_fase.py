@@ -7,5 +7,12 @@ dados = {
         [Slime_verde, Slime_verde],
 
         [King_slime],
+    ],
+    "Deserto": [
+        [Slime_azul, Slime_azul],
+
+        [Slime_verde, Slime_verde],
+
+        [King_slime],
     ]
 }

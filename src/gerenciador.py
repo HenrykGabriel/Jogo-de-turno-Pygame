@@ -7,6 +7,7 @@ from cavaleiro import Cavaleiro
 from menu import Menu
 from fontes import Fontes
 from tela_resultado import TelaResultado
+from escolher_classe import EscolherClasse
 
 class Gerenciador:
     def __init__(self):
@@ -17,7 +18,7 @@ class Gerenciador:
 
         self.jogando = False
 
-        self.jogador = Jogador(Cavaleiro())
+        self.jogador = None
 
         self.inimigos = []
 
@@ -34,6 +35,8 @@ class Gerenciador:
         self.menu = Menu(Fontes())
 
         self.tela_resultado = TelaResultado(Fontes())
+
+        self.tela_escolher_classe = EscolherClasse(Fontes())
         
 
     def rodar(self, janela, eventos):
@@ -44,6 +47,14 @@ class Gerenciador:
             self.menu.update(eventos)
 
             if self.menu.update_comecar(eventos) == True:
+                self.estado = "escolher_classe"
+
+        elif self.estado == "escolher_classe":
+
+            classe_escolhida = self.tela_escolher_classe.rodar(janela, eventos)
+
+            if classe_escolhida:
+                self.jogador = Jogador(classe_escolhida)
                 self.estado = "jogando"
 
         elif self.estado == "jogando":
@@ -118,7 +129,8 @@ class Gerenciador:
                 inimigo["caminho"],
                 inimigo["largura"],
                 inimigo["altura"], 
-                inimigo["qtd_frames"] 
+                inimigo["qtd_frames"],
+                inimigo["velocidade_animacao"]
             ))
 
         return inimigos

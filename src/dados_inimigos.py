@@ -10,7 +10,8 @@ Slime_azul = {
     "caminho": caminho_asset("inimigos/Slime_azul.png"),
     "largura": 170,
     "altura": 170,
-    "qtd_frames": 10
+    "qtd_frames": 10,
+    "velocidade_animacao": 50
 }
 
 Slime_verde = {
@@ -23,7 +24,8 @@ Slime_verde = {
     "caminho": caminho_asset("inimigos/Slime_verde.png"),
     "largura": 170,
     "altura": 170,
-    "qtd_frames": 10
+    "qtd_frames": 10,
+    "velocidade_animacao": 50
 }
 
 King_slime = {
@@ -34,7 +36,8 @@ King_slime = {
     "chance_critico": 4,
     "critico": 1.75,
     "caminho": caminho_asset("inimigos/chefes/King Slime.png"),
-    "largura": 170,
-    "altura": 170,
-    "qtd_frames": 8
+    "largura": 210,
+    "altura": 210,
+    "qtd_frames": 8,
+    "velocidade_animacao": 70
 }

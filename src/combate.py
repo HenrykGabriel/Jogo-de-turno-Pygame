@@ -142,7 +142,7 @@ class Combate:
                             self.painel_rect.top + 180
                         ))
 
-        self.jogador_escudo = self.texto_normal.render(f"Escudo: {self.jogador.escudo}", True, (255, 251, 0))
+        self.jogador_escudo = self.texto_normal.render(f"Escudo: {self.jogador.escudo_maximo}", True, (255, 251, 0))
         self.jogador_escudo_rect = self.jogador_escudo.get_rect(
                     midleft=(
                             self.painel_rect.left + 220,
@@ -186,14 +186,14 @@ class Combate:
         # ---------------------------------------
 
         # MENSAGENS PARA ORIENTAR O JOGADOR -------------------------
-        self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, (255, 251, 0))
+        self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, (26, 22, 14))
         self.escolher_carta_rect = self.escolher_carta.get_rect(
                     midtop=(
                             self.cenario_rect.centerx,
                             self.cenario_rect.top + 40
                         ))
 
-        self.escolher_oponente = self.texto_maior.render("Escolha um oponente", True, (255, 251, 0))
+        self.escolher_oponente = self.texto_maior.render("Escolha um oponente", True, (26, 22, 14))
         self.escolher_oponente_rect = self.escolher_oponente.get_rect(
                     midtop=(
                             self.cenario_rect.centerx,
@@ -275,6 +275,8 @@ class Combate:
 
         if cenario_atual == "Campo aberto":
             janela.blit(self.campo_aberto, (0, 0))
+        elif cenario_atual == "Deserto":
+            janela.blit(self.deserto, (0, 0))
 
         janela.blit(self.painel, (0, self.alt_cenario))
 
@@ -482,7 +484,7 @@ class Combate:
             area_vida.height
         )
 
-        quant_vida = self.texto_normal_bold.render(f"{personagem.vida}/{personagem.vida_maxima}", True, (255, 255, 255))
+        quant_vida = self.texto_normal_bold.render(f"{personagem.vida:.1f}/{personagem.vida_maxima}", True, (255, 255, 255))
         quant_vida_rect = quant_vida.get_rect(
                 midleft=(
                         self.barra_vida_rect.left + 30,
@@ -524,7 +526,7 @@ class Combate:
                 area_escudo.height
             )
     
-            quant_escudo = self.texto_normal_bold.render(f"{self.jogador.escudo}/{self.jogador.escudo_maximo}", True, (255, 255, 255))
+            quant_escudo = self.texto_normal_bold.render(f"{self.jogador.escudo:.1f}/{self.jogador.escudo_maximo}", True, (255, 255, 255))
             quant_escudo_rect = quant_escudo.get_rect(
                     midleft=(
                             self.barra_escudo_rect.left + 20,

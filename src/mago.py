@@ -1,13 +1,13 @@
 import pygame
 from config import caminho_asset
 
-class Cavaleiro:
+class Mago:
 
     def __init__(self):
 
-        self.classe = "Cavaleiro"
+        self.classe = "Mago"
 
-        self.caminho_imagem = caminho_asset("cavaleiro/Cavaleiro.png")
+        self.caminho_imagem = caminho_asset("mago/Mago.png")
 
         self.vida_maxima = 60
 
@@ -27,9 +27,9 @@ class Cavaleiro:
 
         self.alt_frame = 220
         
-        self.qtd_frames = 9
+        self.qtd_frames = 7
 
-        self.velocidade_animacao = 60
+        self.velocidade_animacao = 80
 
         self.som_ataque = caminho_asset("sounds/som_classes/som_ataque_cavaleiro.mp3")
 
