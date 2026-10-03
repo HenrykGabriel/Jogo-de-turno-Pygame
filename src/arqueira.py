@@ -23,15 +23,15 @@ class Arqueira:
 
         self.escudo_maximo = 2
 
-        self.larg_frame = 220
+        self.larg_frame = 210
 
-        self.alt_frame = 220
+        self.alt_frame = 210
         
         self.qtd_frames = 10
 
         self.velocidade_animacao = 60
 
-        self.som_ataque = caminho_asset("sounds/som_classes/som_ataque_cavaleiro.mp3")
+        self.som_ataque = caminho_asset("sounds/som_classes/som_ataque_arqueira.mpeg")
 
         sprite_sheet = pygame.image.load(self.caminho_imagem).convert_alpha()
 

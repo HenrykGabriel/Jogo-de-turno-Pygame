@@ -11,7 +11,8 @@ Slime_azul = {
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10,
-    "velocidade_animacao": 50
+    "velocidade_animacao": 50,
+    "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }
 
 Slime_verde = {
@@ -25,7 +26,8 @@ Slime_verde = {
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10,
-    "velocidade_animacao": 50
+    "velocidade_animacao": 50,
+    "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }
 
 King_slime = {
@@ -39,5 +41,6 @@ King_slime = {
     "largura": 210,
     "altura": 210,
     "qtd_frames": 8,
-    "velocidade_animacao": 70
+    "velocidade_animacao": 70,
+    "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }

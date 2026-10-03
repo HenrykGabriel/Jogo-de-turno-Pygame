@@ -8,11 +8,14 @@ from menu import Menu
 from fontes import Fontes
 from tela_resultado import TelaResultado
 from escolher_classe import EscolherClasse
+from sons import Sons
 
 class Gerenciador:
     def __init__(self):
 
         self.cenario_atual = "Campo aberto"
+
+        self.sons = Sons()
         
         self.fase_atual = 1
 
@@ -68,11 +71,15 @@ class Gerenciador:
                     self.inimigos
                 )
 
+                self.sons.abaixar_volume_musica()
+
                 self.jogando = True
 
             self.resultado_combate = self.combate.comecar(janela, eventos, self.cenario_atual)
 
             if self.resultado_combate == "vitoria":
+
+                self.sons.aumentar_volume_musica()
 
                 if self.fase_atual == 3:
 
@@ -90,6 +97,9 @@ class Gerenciador:
                 self.estado = "tela_resultado"
 
             elif self.resultado_combate == "derrota":
+
+                self.sons.aumentar_volume_musica()
+                
                 self.jogando = False
                 self.estado = "tela_resultado"
 
@@ -130,7 +140,8 @@ class Gerenciador:
                 inimigo["largura"],
                 inimigo["altura"], 
                 inimigo["qtd_frames"],
-                inimigo["velocidade_animacao"]
+                inimigo["velocidade_animacao"],
+                inimigo["som_ataque"]
             ))
 
         return inimigos

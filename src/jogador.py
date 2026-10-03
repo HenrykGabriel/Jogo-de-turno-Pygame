@@ -14,6 +14,10 @@ class Jogador:
         # Sons
 
         self.som_ataque = pygame.mixer.Sound(classe.som_ataque)
+        self.som_ataque.set_volume(1.2)
+
+        self.som_escudo = pygame.mixer.Sound(caminho_asset("sounds/som_classes/som_escudo.mpeg"))
+        self.som_escudo.set_volume(0.8)
         
         # Atributos
         self.vida_maxima = classe.vida_maxima
@@ -82,7 +86,7 @@ class Jogador:
 
             dano_final = self.dano
 
-        self.som_ataque.play()
+
 
         return inimigo.receber_dano(dano_final, dano_critico)
 
@@ -145,6 +149,8 @@ class Jogador:
 
         self.escudo = self.escudo_maximo
 
+        self.som_escudo.play()
+
     def draw(self, janela):
 
         if self.atacando:
@@ -156,6 +162,9 @@ class Jogador:
                 self.tempo_frame = tempo_atual
 
                 self.frame_atual += 1
+
+                if self.frame_atual == 2:
+                    self.som_ataque.play()
 
                 if self.frame_atual >= len(self.frames_ataque):
 

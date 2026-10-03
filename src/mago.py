@@ -9,19 +9,19 @@ class Mago:
 
         self.caminho_imagem = caminho_asset("mago/Mago.png")
 
-        self.vida_maxima = 60
+        self.vida_maxima = 14
 
         self.vida = self.vida_maxima
 
-        self.dano = 7
+        self.dano = 5
 
         self.chance_critico = 3
 
-        self.critico = 1.5
+        self.critico = 1.6
 
-        self.esquiva = 3
+        self.esquiva = 2
 
-        self.escudo_maximo = 5
+        self.escudo_maximo = 3
 
         self.larg_frame = 220
 
@@ -31,7 +31,7 @@ class Mago:
 
         self.velocidade_animacao = 80
 
-        self.som_ataque = caminho_asset("sounds/som_classes/som_ataque_cavaleiro.mp3")
+        self.som_ataque = caminho_asset("sounds/som_classes/som_ataque_mago.mpeg")
 
         sprite_sheet = pygame.image.load(self.caminho_imagem).convert_alpha()
 

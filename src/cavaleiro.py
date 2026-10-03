@@ -9,19 +9,19 @@ class Cavaleiro:
 
         self.caminho_imagem = caminho_asset("cavaleiro/Cavaleiro.png")
 
-        self.vida_maxima = 60
+        self.vida_maxima = 22
 
         self.vida = self.vida_maxima
 
-        self.dano = 7
+        self.dano = 3
 
-        self.chance_critico = 3
+        self.chance_critico = 2
 
         self.critico = 1.5
 
-        self.esquiva = 3
+        self.esquiva = 4
 
-        self.escudo_maximo = 5
+        self.escudo_maximo = 4
 
         self.larg_frame = 220
 

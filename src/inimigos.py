@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Inimigo:
-    def __init__(self, nome, vida, dano, esquiva, chance_critico, critico, caminho_sprite, larg_frame, alt_frame, qtd_frames, velocidade_animacao):
+    def __init__(self, nome, vida, dano, esquiva, chance_critico, critico, caminho_sprite, larg_frame, alt_frame, qtd_frames, velocidade_animacao, som_ataque):
 
         self.nome = nome
         self.sprite_sheet = pygame.image.load(caminho_sprite).convert_alpha()
@@ -35,6 +35,11 @@ class Inimigo:
         self.atacando = False 
         self.tempo_frame = pygame.time.get_ticks()
         self.velocidade_animacao = velocidade_animacao
+
+        # SONS
+
+        self.som_ataque = pygame.mixer.Sound(som_ataque)
+        self.som_ataque.set_volume(1.2)
 
         self.frames_ataque = []
 
@@ -110,6 +115,9 @@ class Inimigo:
                 self.tempo_frame = tempo_atual
 
                 self.frame_atual += 1
+
+                if self.frame_atual == 2:
+                    self.som_ataque.play()
 
                 if self.frame_atual >= len(self.frames_ataque):
 
