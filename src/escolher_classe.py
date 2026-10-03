@@ -3,6 +3,7 @@ from config import alt_tela, larg_tela, caminho_asset
 from botao import Botao
 from cavaleiro import Cavaleiro
 from mago import Mago
+from arqueira import Arqueira
 
 class EscolherClasse:
     def __init__(self, fontes):
@@ -16,7 +17,7 @@ class EscolherClasse:
 
         self.cavaleiro = Cavaleiro()
         self.mago = Mago()
-
+        self.arqueira = Arqueira()
         img = pygame.image.load(caminho_asset("cenarios/Campo aberto.png")).convert_alpha()
         self.fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
 
@@ -51,7 +52,7 @@ class EscolherClasse:
         
         self.container_classe_img = pygame.transform.scale(img_container, (self.larg_container_classes, self.alt_container_classes))
 
-        self.containers_classes = [self.container_cavaleiro, self.container_mago]# self.container_arqueira
+        self.containers_classes = [self.container_cavaleiro, self.container_mago, self.container_arqueira]# self.container_arqueira
 
     def rodar(self, janela, eventos):
 
@@ -77,7 +78,7 @@ class EscolherClasse:
                                 return self.mago
                             
                             elif classe == self.container_arqueira:
-                                return None
+                                return self.arqueira
 
         return None
             
@@ -98,6 +99,8 @@ class EscolherClasse:
                 classe = self.cavaleiro
             elif container == self.container_mago:
                 classe = self.mago
+            elif container == self.container_arqueira:
+                classe = self.arqueira
 
             janela.blit(self.container_classe_img, container)
 
