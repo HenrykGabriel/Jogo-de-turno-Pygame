@@ -27,7 +27,7 @@ class Cavaleiro:
 
         self.alt_frame = 220
         
-        self.qtd_frames = 9
+        self.qtd_frames = 8
 
         self.velocidade_animacao = 60
 

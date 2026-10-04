@@ -11,7 +11,7 @@ Slime_azul = {
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10,
-    "velocidade_animacao": 50,
+    "velocidade_animacao": 70,
     "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }
 
@@ -26,7 +26,7 @@ Slime_verde = {
     "largura": 170,
     "altura": 170,
     "qtd_frames": 10,
-    "velocidade_animacao": 50,
+    "velocidade_animacao": 70,
     "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }
 
