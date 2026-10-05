@@ -14,5 +14,12 @@ dados = {
         [Slime_verde, Slime_verde],
 
         [King_slime],
+    ],
+    "Zona vulcânica": [
+        [Slime_azul, Slime_azul],
+
+        [Slime_verde, Slime_verde],
+
+        [King_slime],
     ]
 }

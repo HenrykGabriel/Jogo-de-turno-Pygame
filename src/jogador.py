@@ -120,11 +120,11 @@ class Jogador:
 
                     if dano_critico == True:
 
-                        resultado = f"CRITÍCO: {dano_inimigo}"
+                        resultado = f"CRITÍCO: {dano_inimigo:.1f}"
                     
                     else:
 
-                        resultado = dano_inimigo
+                        resultado = f"{dano_inimigo:.1f}"
 
             else:
 
@@ -132,11 +132,11 @@ class Jogador:
                 
                 if dano_critico == True:
 
-                    resultado = f"CRITÍCO: {dano_inimigo}"
+                    resultado = f"CRITÍCO: {dano_inimigo:.1f}"
                 
                 else:
 
-                    resultado = dano_inimigo
+                    resultado = f"{dano_inimigo:.1f}"
 
         if self.vida <= 0:
 

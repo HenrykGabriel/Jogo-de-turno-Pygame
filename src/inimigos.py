@@ -98,11 +98,11 @@ class Inimigo:
             
             if dano_critico == True:
 
-                return f"DANO CRITÍCO: {dano_jogador}"
+                return f"DANO CRITÍCO: {dano_jogador:.1f}"
             
             else:
 
-                return dano_jogador
+                return f"{dano_jogador:.1f}"
 
     def draw(self, janela):
 

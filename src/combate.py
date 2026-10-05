@@ -43,6 +43,12 @@ class Combate:
         
         self.deserto = pygame.transform.scale(self.img_deserto, (self.larg_cenario, self.alt_cenario))
 
+        self.img_vulcao = pygame.image.load(caminho_asset("cenarios/Zona vulcânica.png")).convert_alpha()
+        
+        self.zona_vulcanica = pygame.transform.scale(self.img_vulcao,(self.larg_cenario, self.alt_cenario))
+                
+        self.deserto = pygame.transform.scale(self.img_deserto, (self.larg_cenario, self.alt_cenario))
+
         self.cenario_rect = self.campo_aberto.get_rect()
 
         #  PAINEIS ------------------------------------------------------
@@ -183,17 +189,27 @@ class Combate:
 
         self.ver_atributos = False
 
+        self.iniciando = True
+        self.tempo_inicio = pygame.time.get_ticks()
+
+        self.finalizando = False
+        self.tempo_final = 0
+        self.resultado_final = None
+
         # ---------------------------------------
 
         # MENSAGENS PARA ORIENTAR O JOGADOR -------------------------
-        self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, (26, 22, 14))
+
+        self.cor_orientacao = (255, 251, 0)
+
+        self.escolher_carta = self.texto_maior.render("Escolha uma carta", True, self.cor_orientacao)
         self.escolher_carta_rect = self.escolher_carta.get_rect(
                     midtop=(
                             self.cenario_rect.centerx,
                             self.cenario_rect.top + 40
                         ))
 
-        self.escolher_oponente = self.texto_maior.render("Escolha um oponente", True, (26, 22, 14))
+        self.escolher_oponente = self.texto_maior.render("Escolha um oponente", True, self.cor_orientacao)
         self.escolher_oponente_rect = self.escolher_oponente.get_rect(
                     midtop=(
                             self.cenario_rect.centerx,
@@ -201,75 +217,95 @@ class Combate:
                         ))
 
 
-    def comecar(self, janela, eventos, cenario_atual):
+    def comecar(self, janela, eventos, cenario_atual, fase_atual):
 
-        self.clicou_atributos(eventos)
+        if self.iniciando:
 
-        self.draw(janela, cenario_atual)
+            self.draw_inicio(janela, cenario_atual, fase_atual)
 
-        if self.turno == "jogador":
+            if pygame.time.get_ticks() - self.tempo_inicio >= 4300:
 
-            if self.acao is None:
-                self.acao = self.clicou_carta(eventos)
+                self.iniciando = False
 
-            if self.acao == "atacar":
+        else:
 
-                self.inimigo_selecionado = self.clicou_inimigo(eventos)
+            self.clicou_atributos(eventos)
 
-                if self.inimigo_selecionado is not None:
+            self.draw(janela, cenario_atual)
 
-                    self.resultado = self.jogador.atacar(
-                        self.inimigo_selecionado
-                    )
+            if self.finalizando:
+                if pygame.time.get_ticks() - self.tempo_final >= 1000:
+                    return self.resultado_final
 
-                    self.personagem_acao = self.inimigo_selecionado
+                return
 
-                    self.tempo_resultado = pygame.time.get_ticks()
-                    self.tempo_turno = pygame.time.get_ticks()
+            if self.turno == "jogador":
 
-                    if self.inimigo_selecionado.vida <= 0:
-                        self.inimigos.remove(self.inimigo_selecionado)
+                if self.acao is None:
+                    self.acao = self.clicou_carta(eventos)
+
+                if self.acao == "atacar":
+
+                    self.inimigo_selecionado = self.clicou_inimigo(eventos)
+
+                    if self.inimigo_selecionado is not None:
+
+                        self.resultado = self.jogador.atacar(
+                            self.inimigo_selecionado
+                        )
+
+                        self.personagem_acao = self.inimigo_selecionado
+
+                        self.tempo_resultado = pygame.time.get_ticks()
+                        self.tempo_turno = pygame.time.get_ticks()
+
+                        if self.inimigo_selecionado.vida <= 0:
+                            self.inimigos.remove(self.inimigo_selecionado)
+
+                        self.acao = None
+
+                        if len(self.inimigos) > 0:
+                            self.turno = "inimigos"
+
+                        else:
+                            self.finalizando = True
+                            self.resultado_final = "vitoria"
+                            self.tempo_final = pygame.time.get_ticks()
+
+                elif self.acao == "defender":
+
+                    self.jogador.ativar_escudo()
 
                     self.acao = None
 
-                    if len(self.inimigos) > 0:
-                        self.turno = "inimigos"
-
-                    else:
-                        return "vitoria"
-
-            elif self.acao == "defender":
-
-                self.jogador.ativar_escudo()
-
-                self.acao = None
-
-                self.tempo_resultado = pygame.time.get_ticks()
-                self.tempo_turno = pygame.time.get_ticks()
-
-                self.turno = "inimigos"
-
-        if self.turno == "inimigos":
-
-            if pygame.time.get_ticks() - self.tempo_turno >= 1700:
-
-                if self.indice_inimigo < len(self.inimigos):
-                    inimigo = self.inimigos[self.indice_inimigo]
-
-                    self.resultado = inimigo.atacar(self.jogador)
-                    self.personagem_acao = self.jogador
                     self.tempo_resultado = pygame.time.get_ticks()
-
                     self.tempo_turno = pygame.time.get_ticks()
-                    self.indice_inimigo += 1
 
-                    if self.jogador.vida <= 0:
-                        return "derrota"
+                    self.turno = "inimigos"
 
-                if self.indice_inimigo >= len(self.inimigos):
+            if self.turno == "inimigos":
 
-                    self.indice_inimigo = 0
-                    self.turno = "jogador"
+                if pygame.time.get_ticks() - self.tempo_turno >= 1700:
+
+                    if self.indice_inimigo < len(self.inimigos):
+                        inimigo = self.inimigos[self.indice_inimigo]
+
+                        self.resultado = inimigo.atacar(self.jogador)
+                        self.personagem_acao = self.jogador
+                        self.tempo_resultado = pygame.time.get_ticks()
+
+                        self.tempo_turno = pygame.time.get_ticks()
+                        self.indice_inimigo += 1
+
+                        if self.jogador.vida <= 0:
+                            self.finalizando = True
+                            self.resultado_final = "derrota"
+                            self.tempo_final = pygame.time.get_ticks()
+
+                    if self.indice_inimigo >= len(self.inimigos):
+
+                        self.indice_inimigo = 0
+                        self.turno = "jogador"
 
     def draw(self, janela, cenario_atual):
 
@@ -277,6 +313,10 @@ class Combate:
             janela.blit(self.campo_aberto, (0, 0))
         elif cenario_atual == "Deserto":
             janela.blit(self.deserto, (0, 0))
+        elif cenario_atual == "Zona vulcânica":
+            janela.blit(self.zona_vulcanica, (0, 0))
+
+        self.atualizar_cor_orientacao(cenario_atual)
 
         janela.blit(self.painel, (0, self.alt_cenario))
 
@@ -484,10 +524,10 @@ class Combate:
             area_vida.height
         )
 
-        quant_vida = self.texto_normal_bold.render(f"{personagem.vida:.1f}/{personagem.vida_maxima}", True, (255, 255, 255))
+        quant_vida = self.texto_normal_bold.render(f"{personagem.vida:.1f}/{personagem.vida_maxima:.1f}", True, (255, 255, 255))
         quant_vida_rect = quant_vida.get_rect(
                 midleft=(
-                        self.barra_vida_rect.left + 30,
+                        self.barra_vida_rect.left + 15,
                         self.barra_vida_rect.centery
                     ))
 
@@ -526,10 +566,10 @@ class Combate:
                 area_escudo.height
             )
     
-            quant_escudo = self.texto_normal_bold.render(f"{self.jogador.escudo:.1f}/{self.jogador.escudo_maximo}", True, (255, 255, 255))
+            quant_escudo = self.texto_normal_bold.render(f"{self.jogador.escudo:.1f}/{self.jogador.escudo_maximo:.1f}", True, (255, 255, 255))
             quant_escudo_rect = quant_escudo.get_rect(
                     midleft=(
-                            self.barra_escudo_rect.left + 20,
+                            self.barra_escudo_rect.left + 15,
                             self.barra_escudo_rect.centery
                         ))
     
@@ -594,3 +634,80 @@ class Combate:
 
         else:
             self.resultado = None
+
+    def draw_inicio(self, janela, cenario_atual, fase_atual):
+        if cenario_atual == "Campo aberto":
+            img = self.campo_aberto.copy()
+            fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
+            janela.blit(fundo, (0, 0))
+
+        elif cenario_atual == "Deserto":
+            img = self.deserto.copy()
+            fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
+            janela.blit(fundo, (0, 0))
+
+        elif cenario_atual == "Zona vulcânica":
+            img = self.zona_vulcanica.copy()
+            fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
+            janela.blit(fundo, (0, 0))
+
+        janela.blit(self.efeito_escuro, (0, 0))
+
+        tempo_passado = pygame.time.get_ticks() - self.tempo_inicio
+
+        titulo = self.texto_maior.render(
+            f"Fase: {fase_atual} | Cenário: {cenario_atual}",
+            True,
+            (255, 251, 0)
+        )
+        janela.blit(titulo, ((larg_tela-titulo.get_width())//2, alt_tela // 2 - 250))
+
+        if tempo_passado < 1000:
+            texto = "Combate em..."
+        
+        elif tempo_passado < 1900:
+            texto = "3"
+
+        elif tempo_passado < 2700:
+            texto = "2"
+
+        elif tempo_passado < 3600:
+            texto = "1"
+
+        else:
+            texto = "COMEÇAR!"
+
+        imagem = self.titulo.render(
+            texto,
+            True,
+            (255, 251, 0)
+        )
+
+        rect = imagem.get_rect(
+            center=(larg_tela // 2, alt_tela // 2)
+        )
+
+        janela.blit(imagem, rect)
+
+    def atualizar_cor_orientacao(self, cenario_atual):
+
+        if cenario_atual == "Campo aberto":
+            self.cor_orientacao = (255, 251, 0)
+
+        elif cenario_atual == "Deserto":
+            self.cor_orientacao = (46, 39, 26)
+
+        elif cenario_atual == "Zona vulcânica":
+            self.cor_orientacao = (191, 8, 8)
+
+        self.escolher_carta = self.texto_maior.render(
+            "Escolha uma carta",
+            True,
+            self.cor_orientacao
+        )
+
+        self.escolher_oponente = self.texto_maior.render(
+            "Escolha um oponente",
+            True,
+            self.cor_orientacao
+        )

@@ -15,13 +15,19 @@ class TelaResultado:
         self.larg_botao = 310
         self.alt_botao = 100
                                     # largura          altura
-        self.botao_reiniciar = Botao((larg_tela-310)//2, (alt_tela+100)//2, 
+        self.botao_reiniciar = Botao((larg_tela-310)//2, (alt_tela+self.alt_botao)//2, 
                            self.larg_botao, self.alt_botao, "Reiniciar", (255, 255, 255),
                            self.texto_medio, (224, 221, 8), (214, 211, 0))
 
         self.botao_sair = Botao((larg_tela-self.larg_botao)//2, (alt_tela+self.alt_botao+250)//2, 
                                    self.larg_botao, self.alt_botao, "Sair", (255, 255, 255),
                                    self.texto_medio, (230, 3, 3), (194, 2, 2))
+
+        # BOTAO VITORIA
+
+        self.botao_escolher_carta = Botao((larg_tela-self.larg_botao)//2, (alt_tela+self.alt_botao+90)//2, 
+                                    self.larg_botao, self.alt_botao, "Escolher carta", (255, 255, 255),
+                                    self.texto_medio, (224, 221, 8), (214, 211, 0))
 
         img = pygame.image.load(caminho_asset("cenarios/Campo aberto.png")).convert_alpha()
         self.fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
@@ -46,7 +52,7 @@ class TelaResultado:
 
         self.resultado = None
 
-        # TITULO E TEXTOS - DERROTA
+        # TITULO - DERROTA
 
         self.titulo_derrota = self.titulo.render("DERROTA!", True, (255, 251, 0))
         self.titulo_derrota_rect = self.titulo_derrota.get_rect(
@@ -58,6 +64,19 @@ class TelaResultado:
         self.texto_derrota = ""
         self.texto_derrota_x = self.container_rect.centerx - (self.larg_container - 130)//2
         self.texto_derrota_y = self.container_rect.centery - 120
+
+        # TITULO - VITORIA
+
+        self.titulo_vitoria = self.titulo.render("VITORIA!", True, (255, 251, 0))
+        self.titulo_vitoria_rect = self.titulo_vitoria.get_rect(
+            center=(
+                self.container_rect.centerx,
+                self.container_rect.centery - 200)
+                )
+        
+        self.texto = ""
+        self.texto_x = self.container_rect.centerx - (self.larg_container - 130)//2
+        self.texto_y = self.container_rect.centery - 100
 
         self.cenario = None
 
@@ -75,7 +94,15 @@ class TelaResultado:
 
         self.resultado = resultado 
 
-        self.texto_derrota = f"Você foi derrotado na fase {self.fase} do cenario {self.cenario}."
+        if self.resultado == "vitoria":
+
+            self.checar_fase()
+
+            self.texto = f"Você venceu a fase {self.fase} do cenario {self.cenario}."
+
+        else:
+
+            self.texto = f"Você foi derrotado na fase {self.fase} do cenario {self.cenario}."
 
         self.draw(janela)
 
@@ -86,12 +113,26 @@ class TelaResultado:
 
     def update(self, eventos):
 
-        if self.botao_reiniciar.clicado(eventos) == True:
-            return "reiniciar"
+        if self.resultado == "derrota":
+            if self.botao_sair.clicado(eventos) == True:
+                return "sair"
+            elif self.botao_reiniciar.clicado(eventos) == True:
+                return "reiniciar"
+        elif self.resultado == "vitoria":
+            if self.botao_escolher_carta.clicado(eventos) == True:
+                return "escolher carta"
 
-        elif self.botao_sair.clicado(eventos) == True:
-            return "sair"
-            
+    def checar_fase(self):
+
+            if self.fase == 1 and self.cenario == "Deserto":
+                self.fase = 3
+                self.cenario = "Campo aberto"
+            elif self.fase == 1 and self.cenario == "Zona vulcânica":
+                self.fase = 3
+                self.cenario = "Deserto"
+            else:
+                self.fase -= 1
+                self.cenario = self.cenario
 
     def draw(self, janela):
 
@@ -102,11 +143,14 @@ class TelaResultado:
 
         if self.resultado == "derrota":
             janela.blit(self.titulo_derrota, self.titulo_derrota_rect)
-            desenhar_texto(janela, [self.texto_derrota], self.texto_derrota_x,
-                           self.texto_derrota_y, self.larg_container - 130, self.texto_medio, (255, 251, 0))
+            desenhar_texto(janela, [self.texto], self.texto_x,
+                           self.texto_y, self.larg_container - 130, self.texto_medio, (255, 251, 0))
             self.botao_reiniciar.draw(janela)
             self.botao_sair.draw(janela)
 
         elif self.resultado == "vitoria":
 
-            pass
+            janela.blit(self.titulo_vitoria, self.titulo_vitoria_rect)
+            desenhar_texto(janela, [self.texto], self.texto_x,
+                           self.texto_y, self.larg_container - 130, self.texto_medio, (255, 251, 0))
+            self.botao_escolher_carta.draw(janela)

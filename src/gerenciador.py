@@ -8,6 +8,7 @@ from menu import Menu
 from fontes import Fontes
 from tela_resultado import TelaResultado
 from escolher_classe import EscolherClasse
+from escolher_carta import TelaEscolherCarta
 from sons import Sons
 
 class Gerenciador:
@@ -40,7 +41,7 @@ class Gerenciador:
         self.tela_resultado = TelaResultado(Fontes())
 
         self.tela_escolher_classe = EscolherClasse(Fontes())
-        
+        self.tela_escolher_carta = TelaEscolherCarta(Fontes())
 
     def rodar(self, janela, eventos):
 
@@ -66,6 +67,9 @@ class Gerenciador:
 
                 self.inimigos = self.criar_inimigos()
 
+                self.jogador.vida = self.jogador.vida_maxima
+                self.jogador.escudo = 0
+
                 self.combate = Combate(
                     self.jogador,
                     self.inimigos
@@ -75,7 +79,7 @@ class Gerenciador:
 
                 self.jogando = True
 
-            self.resultado_combate = self.combate.comecar(janela, eventos, self.cenario_atual)
+            self.resultado_combate = self.combate.comecar(janela, eventos, self.cenario_atual, self.fase_atual)
 
             if self.resultado_combate == "vitoria":
 
@@ -86,6 +90,12 @@ class Gerenciador:
                     if self.cenario_atual == "Campo aberto":
 
                         self.cenario_atual = "Deserto"
+                        self.fase_atual = 1
+                        self.jogando = False
+
+                    elif self.cenario_atual == "Deserto":
+                    
+                        self.cenario_atual = "Zona vulcânica"
                         self.fase_atual = 1
                         self.jogando = False
 
@@ -117,6 +127,17 @@ class Gerenciador:
                 self.fase_atual = 1
                 self.cenario_atual = "Campo aberto"
                 self.jogando = False
+
+            elif self.acao == "escolher carta":
+                self.estado = "tela_escolher_carta"
+
+        elif self.estado == "tela_escolher_carta":
+            
+            self.acao = self.tela_escolher_carta.rodar(janela, eventos, self.cenario_atual, self.jogador)
+
+            if self.acao == "escolheu carta":
+                self.estado = "jogando"
+                self.jogador.atacando = False
 
 
     def criar_inimigos(self):

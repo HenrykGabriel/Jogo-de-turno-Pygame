@@ -8,7 +8,7 @@ class Carta_atributo:
 
         self.img = pygame.image.load(caminho_asset(caminho))
 
-        self.imagem = pygame.transform.scale(self.imagem, (100, 142))
+        self.imagem = pygame.transform.scale(self.img, (200, 280))
 
         self.atributo = atributo
 
@@ -16,7 +16,7 @@ class Carta_atributo:
 
     def aplicar(self, jogador):
 
-        if self.atributo == "vida":
+        if self.atributo == "vida_maxima":
             jogador.vida_maxima += self.quant_aumento
 
         elif self.atributo == "dano":
@@ -31,7 +31,7 @@ class Carta_atributo:
         elif self.atributo == "critico":
             jogador.critico += self.quant_aumento
 
-        elif self.atributo == "escudo":
+        elif self.atributo == "escudo_maximo":
             jogador.escudo_maximo += self.quant_aumento
 
 # cartas bronze
@@ -54,7 +54,7 @@ prata_escudo = Carta_atributo("Prata", "cartas_atributos/prata_escudo.png", "esc
 prata_critico = Carta_atributo("Prata", "cartas_atributos/prata_critico.png", "critico", 0.5)
 prata_esquiva = Carta_atributo("Prata", "cartas_atributos/prata_esquiva.png", "esquiva", 4)
 
-cartas_pratas = [prata_dano, prata_vida, prata_chance, prata_escudo, prata_critico, prata_esquiva]
+cartas_prata = [prata_dano, prata_vida, prata_chance, prata_escudo, prata_critico, prata_esquiva]
 
 # cartas ouro
 
@@ -63,6 +63,6 @@ ouro_vida = Carta_atributo("Ouro", "cartas_atributos/ouro_vida.png", "vida_maxim
 ouro_chance = Carta_atributo("Ouro", "cartas_atributos/ouro_chance.png", "chance_critico", 5)
 ouro_escudo = Carta_atributo("Ouro", "cartas_atributos/ouro_escudo.png", "escudo_maximo", 5)
 ouro_critico = Carta_atributo("Ouro", "cartas_atributos/ouro_critico.png", "critico", 1)
-ouro_esquiva = Carta_atributo("Ouro", "cartas_atributos /ouro_esquiva.png", "esquiva", 7)
+ouro_esquiva = Carta_atributo("Ouro", "cartas_atributos/ouro_esquiva.png", "esquiva", 7)
 
 cartas_ouro = [ouro_dano, ouro_vida, ouro_chance, ouro_escudo, ouro_critico, ouro_esquiva]
