@@ -43,7 +43,9 @@ class Combate:
         
         self.deserto = pygame.transform.scale(self.img_deserto, (self.larg_cenario, self.alt_cenario))
 
-        self.img_vulcao = pygame.image.load(caminho_asset("cenarios/Zona vulcânica.png")).convert_alpha()
+        # CENARIO 2 - ZONA VULCANICA -------------------------------------
+
+        self.img_vulcao = pygame.image.load(caminho_asset("cenarios/Zona vulcanica.png")).convert_alpha()
         
         self.zona_vulcanica = pygame.transform.scale(self.img_vulcao,(self.larg_cenario, self.alt_cenario))
                 

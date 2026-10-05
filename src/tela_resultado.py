@@ -30,7 +30,15 @@ class TelaResultado:
                                     self.texto_medio, (224, 221, 8), (214, 211, 0))
 
         img = pygame.image.load(caminho_asset("cenarios/Campo aberto.png")).convert_alpha()
-        self.fundo = pygame.transform.scale(img, (larg_tela, alt_tela))
+        self.campo_aberto = pygame.transform.scale(img, (larg_tela, alt_tela))
+
+        img = pygame.image.load(caminho_asset("cenarios/Deserto.png")).convert_alpha()
+        self.deserto = pygame.transform.scale(img, (larg_tela, alt_tela))
+
+        img = pygame.image.load(caminho_asset("cenarios/Zona vulcanica.png")).convert_alpha()
+        self.zona_vulcanica = pygame.transform.scale(img, (larg_tela, alt_tela))
+
+        self.fundo = None
 
         self.efeito_escuro = pygame.Surface((larg_tela, alt_tela))
         self.efeito_escuro.fill((0,0,0))
@@ -91,6 +99,13 @@ class TelaResultado:
         self.cenario = cenario
 
         self.fase = fase
+
+        if cenario == "Campo aberto":
+            self.fundo = self.campo_aberto
+        elif cenario == "Deserto":
+            self.fundo = self.deserto
+        elif cenario == "Zona vulcânica":
+            self.fundo = self.zona_vulcanica
 
         self.resultado = resultado 
 

@@ -38,7 +38,7 @@ class TelaEscolherCarta:
         )
 
         self.img_vulcao = pygame.image.load(
-            caminho_asset("cenarios/Zona vulcânica.png")
+            caminho_asset("cenarios/Zona vulcanica.png")
         ).convert_alpha()
 
         self.zona_vulcanica = pygame.transform.scale(
