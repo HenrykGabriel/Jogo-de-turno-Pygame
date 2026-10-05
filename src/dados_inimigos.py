@@ -25,7 +25,7 @@ Slime_verde = {
     "caminho": caminho_asset("inimigos/Slime_verde.png"),
     "largura": 170,
     "altura": 170,
-    "qtd_frames": 10,
+    "qtd_frames": 9,
     "velocidade_animacao": 70,
     "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }
@@ -41,6 +41,21 @@ King_slime = {
     "largura": 210,
     "altura": 210,
     "qtd_frames": 8,
+    "velocidade_animacao": 70,
+    "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
+}
+
+Esqueleto = {
+    "nome": "Esqueleto",
+    "vida": 25,
+    "dano": 3,
+    "esquiva": 8,
+    "chance_critico": 4,
+    "critico": 1.75,
+    "caminho": caminho_asset("inimigos/Esqueleto.png"),
+    "largura": 210,
+    "altura": 210,
+    "qtd_frames": 4,
     "velocidade_animacao": 70,
     "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_slime.mpeg")
 }
