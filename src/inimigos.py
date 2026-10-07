@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Inimigo:
-    def __init__(self, nome, vida, dano, esquiva, chance_critico, critico, caminho_sprite, larg_frame, alt_frame, qtd_frames, velocidade_animacao, som_ataque):
+    def __init__(self, nome, vida, dano_max, dano_min, esquiva, chance_critico, critico, caminho_sprite, larg_frame, alt_frame, qtd_frames, velocidade_animacao, som_ataque):
 
         self.nome = nome
         self.sprite_sheet = pygame.image.load(caminho_sprite).convert_alpha()
@@ -13,7 +13,8 @@ class Inimigo:
         # Atributos
         self.vida_maxima = vida
         self.vida = self.vida_maxima
-        self.dano = dano
+        self.dano_max = dano_max
+        self.dano_min = dano_min
         self.esquiva = esquiva
         self.chance_critico = chance_critico
         self.critico = critico
@@ -68,19 +69,19 @@ class Inimigo:
 
         dano_critico = False
 
-        self.dano_normal = self.dano
-        
+        dano = random.randint(self.dano_min, self.dano_max)
+
         num = random.randint(1, 100)
 
         if num <= self.chance_critico:
 
-            dano_final = self.dano * self.critico
+            dano_final = dano * self.critico
 
             dano_critico = True
 
         else:
 
-            dano_final = self.dano
+            dano_final = dano
 
         return jogador.receber_dano(dano_final, dano_critico)
 

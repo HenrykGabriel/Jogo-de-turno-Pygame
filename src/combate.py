@@ -122,7 +122,7 @@ class Combate:
                             self.painel_rect.top + 80
                         ))
 
-        self.jogador_dano = self.texto_normal.render(f"Dano: {self.jogador.dano}", True, (255, 251, 0))
+        self.jogador_dano = self.texto_normal.render(f"Dano: {self.jogador.dano_min} - {self.jogador.dano_max}", True, (255, 251, 0))
         self.jogador_dano_rect = self.jogador_dano.get_rect(
                     midleft=(
                             self.painel_rect.left + 220,
@@ -236,7 +236,7 @@ class Combate:
             self.draw(janela, cenario_atual)
 
             if self.finalizando:
-                if pygame.time.get_ticks() - self.tempo_final >= 1000:
+                if pygame.time.get_ticks() - self.tempo_final >= 800:
                     return self.resultado_final
 
                 return
@@ -422,7 +422,7 @@ class Combate:
 
         # DANO
         inimigo_dano = self.texto_medio.render(
-            f"Dano: {inimigo.dano}",
+            f"Dano: {inimigo.dano_min} - {inimigo.dano_max}",
             True,
             (255, 251, 0)
         )

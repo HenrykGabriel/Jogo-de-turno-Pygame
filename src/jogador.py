@@ -22,7 +22,8 @@ class Jogador:
         # Atributos
         self.vida_maxima = classe.vida_maxima
         self.vida = classe.vida
-        self.dano = classe.dano
+        self.dano_max = classe.dano_max
+        self.dano_min = classe.dano_min
         self.esquiva = classe.esquiva
         self.chance_critico = classe.chance_critico
         self.critico = classe.critico
@@ -73,18 +74,18 @@ class Jogador:
 
         dano_critico = False
 
-        self.dano_normal = self.dano
+        dano = random.randint(self.dano_min, self.dano_max)
 
         num = random.randint(1, 100)
 
         if num <= self.chance_critico:
 
-            dano_final = self.dano * self.critico
+            dano_final = dano * self.critico
             dano_critico = True
 
         else:
 
-            dano_final = self.dano
+            dano_final = dano
 
 
 

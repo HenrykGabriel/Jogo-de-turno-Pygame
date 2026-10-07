@@ -20,7 +20,8 @@ class Carta_atributo:
             jogador.vida_maxima += self.quant_aumento
 
         elif self.atributo == "dano":
-            jogador.dano += self.quant_aumento
+            jogador.dano_max += self.quant_aumento
+            jogador.dano_min += self.quant_aumento
 
         elif self.atributo == "esquiva":
             jogador.esquiva += self.quant_aumento

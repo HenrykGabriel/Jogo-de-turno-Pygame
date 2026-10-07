@@ -9,8 +9,12 @@ from sons import Sons
 
 pygame.init()
 
+
 janela = pygame.display.set_mode((larg_tela, alt_tela))
 pygame.display.set_caption("The Last Vanguard")
+
+logo = pygame.image.load("assets/cenarios/logo.png")
+pygame.display.set_icon(logo)
 
 clock = pygame.time.Clock()
 

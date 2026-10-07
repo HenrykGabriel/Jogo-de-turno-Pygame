@@ -153,7 +153,8 @@ class Gerenciador:
             inimigos.append(Inimigo(
                 inimigo["nome"],
                 inimigo["vida"],
-                inimigo["dano"],
+                inimigo["dano_max"],
+                inimigo["dano_min"],
                 inimigo["esquiva"],
                 inimigo["chance_critico"], 
                 inimigo["critico"], 

@@ -119,7 +119,7 @@ class EscolherClasse:
             classe_vida = self.texto_normal.render(f"Vida: {classe.vida_maxima}", True, (255, 251, 0))
             janela.blit(classe_vida, (container.centerx - classe_vida.get_width() // 2, container.centery - 10))
 
-            classe_dano = self.texto_normal.render(f"Dano: {classe.dano}", True, (255, 251, 0))
+            classe_dano = self.texto_normal.render(f"Dano: {classe.dano_min} - {classe.dano_max}", True, (255, 251, 0))
             janela.blit(classe_dano, (container.centerx - classe_dano.get_width() // 2, container.centery + 30))
 
             classe_chance = self.texto_normal.render(f"Chance crítico: {classe.chance_critico}", True, (255, 251, 0))

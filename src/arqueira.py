@@ -13,7 +13,9 @@ class Arqueira:
 
         self.vida = self.vida_maxima
 
-        self.dano = 4
+        self.dano_max = 4
+
+        self.dano_min = 3
 
         self.chance_critico = 5
 
