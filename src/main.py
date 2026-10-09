@@ -26,17 +26,7 @@ sons.iniciar_musica()
 
 rodando = True
 
-cavaleiro = Cavaleiro()
-
-jogador = Jogador(cavaleiro)
-
-fontes = Fontes()
-
-menu = Menu(fontes)
-
 gerenciador = Gerenciador()
-
-estado = "menu"
 
 while rodando:
 

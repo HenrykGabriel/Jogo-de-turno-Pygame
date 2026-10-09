@@ -6,8 +6,12 @@ from textos import desenhar_texto
 class TelaResultado:
     def __init__(self, fontes):
         self.titulo = fontes.titulo
+        self.texto_maior = fontes.texto_maior
+        self.texto_medio2 = fontes.texto_medio2
         self.texto_medio = fontes.texto_medio
+        self.texto_normal_bold = fontes.texto_normal_bold
         self.texto_normal = fontes.texto_normal
+        self.texto_pequeno_bold = fontes.texto_pequeno_bold
         self.texto_pequeno = fontes.texto_pequeno
 
         # BOTOES DERROTA
@@ -15,7 +19,7 @@ class TelaResultado:
         self.larg_botao = 310
         self.alt_botao = 100
                                     # largura          altura
-        self.botao_reiniciar = Botao((larg_tela-310)//2, (alt_tela+self.alt_botao)//2, 
+        self.botao_reiniciar = Botao((larg_tela-310)//2, (alt_tela+self.alt_botao)//2+10, 
                            self.larg_botao, self.alt_botao, "Reiniciar", (255, 255, 255),
                            self.texto_medio, (224, 221, 8), (214, 211, 0))
 
@@ -69,10 +73,6 @@ class TelaResultado:
                 self.container_rect.centery - 200)
                 )
 
-        self.texto_derrota = ""
-        self.texto_derrota_x = self.container_rect.centerx - (self.larg_container - 130)//2
-        self.texto_derrota_y = self.container_rect.centery - 120
-
         # TITULO - VITORIA
 
         self.titulo_vitoria = self.titulo.render("VITORIA!", True, (255, 251, 0))
@@ -85,6 +85,22 @@ class TelaResultado:
         self.texto = ""
         self.texto_x = self.container_rect.centerx - (self.larg_container - 130)//2
         self.texto_y = self.container_rect.centery - 100
+
+        # TITULO - VITORIA FINAL
+
+        self.titulo_final = self.texto_medio2.render("PARABÉNS GUERREIRO(A)!", True, (255, 251, 0))
+        self.titulo_final_rect = self.titulo_final.get_rect(
+            center=(
+                self.container_rect.centerx,
+                self.container_rect.centery - 220)
+                )
+
+        self.agradecimento = self.texto_medio.render("OBRIGADO POR JOGAR!", True, (255, 251, 0))
+        self.agradecimento_rect = self.agradecimento.get_rect(
+            center=(
+                self.container_rect.centerx,
+                self.container_rect.centery + 15)
+            )
 
         self.cenario = None
 
@@ -100,6 +116,8 @@ class TelaResultado:
 
         self.fase = fase
 
+        self.resultado = resultado 
+
         if cenario == "Campo aberto":
             self.fundo = self.campo_aberto
         elif cenario == "Deserto":
@@ -107,13 +125,22 @@ class TelaResultado:
         elif cenario == "Zona vulcânica":
             self.fundo = self.zona_vulcanica
 
-        self.resultado = resultado 
+            if fase == 4:
+
+                self.resultado = "vitoria final"
 
         if self.resultado == "vitoria":
 
             self.checar_fase()
 
             self.texto = f"Você venceu a fase {self.fase} do cenario {self.cenario}."
+
+        elif self.resultado == "vitoria final":
+
+            self.texto = [
+                "Você terminou todas as fases do jogo.",
+                "Se quiser, tente zerar com outra classe."
+            ]
 
         else:
 
@@ -136,6 +163,11 @@ class TelaResultado:
         elif self.resultado == "vitoria":
             if self.botao_escolher_carta.clicado(eventos) == True:
                 return "escolher carta"
+        elif self.resultado == "vitoria final":
+            if self.botao_sair.clicado(eventos) == True:
+                return "sair"
+            elif self.botao_reiniciar.clicado(eventos) == True:
+                return "reiniciar"
 
     def checar_fase(self):
 
@@ -169,3 +201,12 @@ class TelaResultado:
             desenhar_texto(janela, [self.texto], self.texto_x,
                            self.texto_y, self.larg_container - 130, self.texto_medio, (255, 251, 0))
             self.botao_escolher_carta.draw(janela)
+
+        elif self.resultado == "vitoria final":
+
+            janela.blit(self.titulo_final, self.titulo_final_rect)
+            desenhar_texto(janela, self.texto, self.texto_x,
+                            self.texto_y - 60, self.larg_container - 130, self.texto_normal_bold, (255, 251, 0))
+            janela.blit(self.agradecimento, self.agradecimento_rect)
+            self.botao_reiniciar.draw(janela)
+            self.botao_sair.draw(janela)

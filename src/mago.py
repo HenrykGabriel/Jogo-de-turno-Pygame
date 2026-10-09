@@ -9,19 +9,19 @@ class Mago:
 
         self.caminho_imagem = caminho_asset("mago/Mago.png")
 
-        self.vida_maxima = 14
+        self.vida_maxima = 19
 
         self.vida = self.vida_maxima
 
-        self.dano_max = 5
+        self.dano_max = 7
 
-        self.dano_min = 3
+        self.dano_min = 5
 
-        self.chance_critico = 3
+        self.chance_critico = 7
 
-        self.critico = 1.6
+        self.critico = 1.75
 
-        self.esquiva = 2
+        self.esquiva = 7
 
         self.escudo_maximo = 3
 

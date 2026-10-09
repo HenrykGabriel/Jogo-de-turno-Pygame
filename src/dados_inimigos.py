@@ -5,7 +5,7 @@ Slime_azul = {
     "vida": 10,
     "dano_max": 3,
     "dano_min": 2,
-    "esquiva": 10,
+    "esquiva": 8,
     "chance_critico": 3,
     "critico": 1.1,
     "caminho": caminho_asset("inimigos/Slime_azul.png"),
@@ -18,11 +18,11 @@ Slime_azul = {
 
 Slime_verde = {
     "nome": "Slime verde",
-    "vida": 12,
+    "vida": 13,
     "dano_max": 3,
     "dano_min": 2,
-    "esquiva": 12,
-    "chance_critico": 7,
+    "esquiva": 10,
+    "chance_critico": 6,
     "critico": 1.2,
     "caminho": caminho_asset("inimigos/Slime_verde.png"),
     "largura": 170,
@@ -34,9 +34,9 @@ Slime_verde = {
 
 King_slime = {
     "nome": "King Slime",
-    "vida": 30,
+    "vida": 32,
     "dano_max": 5,
-    "dano_min": 3,
+    "dano_min": 4,
     "esquiva": 6,
     "chance_critico": 7,
     "critico": 1.75,
@@ -50,7 +50,7 @@ King_slime = {
 
 Esqueleto = {
     "nome": "Esqueleto",
-    "vida": 25,
+    "vida": 20,
     "dano_max": 4,
     "dano_min": 3,
     "esquiva": 8,
@@ -61,5 +61,5 @@ Esqueleto = {
     "altura": 210,
     "qtd_frames": 4,
     "velocidade_animacao": 90,
-    "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_esqueleto.mpeg")
+    "som_ataque": caminho_asset("sounds/som_inimigos/som_ataque_esqueleto.mp3")
 }

@@ -270,6 +270,7 @@ class Combate:
                             self.turno = "inimigos"
 
                         else:
+
                             self.finalizando = True
                             self.resultado_final = "vitoria"
                             self.tempo_final = pygame.time.get_ticks()

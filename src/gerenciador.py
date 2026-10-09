@@ -99,6 +99,11 @@ class Gerenciador:
                         self.fase_atual = 1
                         self.jogando = False
 
+                    elif self.cenario_atual == "Zona vulcânica":
+                                        
+                        self.fase_atual += 1
+                        self.jogando = False
+
                 else:
 
                     self.fase_atual += 1
@@ -123,7 +128,6 @@ class Gerenciador:
             elif self.acao == "reiniciar":
                 self.estado = "menu"
                 self.menu.estado = "menu"
-                self.jogador = Jogador(Cavaleiro())
                 self.fase_atual = 1
                 self.cenario_atual = "Campo aberto"
                 self.jogando = False
